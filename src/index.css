@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.sort {
+    @apply inline-flex gap-2 bg-gray-100 rounded-2xl py-1 px-5 text-gray-500 cursor-pointer font-bold self-center mr-3 mb-3
+}
