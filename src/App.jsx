@@ -8,6 +8,7 @@ import SideBar from "./components/dashboard/SideBar";
 import ProductDetail from "./features/product/ProductDetail";
 import Layout from "./components/layout/Layout";
 import AddTraining from "./features/training/AddTraining";
+import NotFound from "./components/error page/NotFound";
 // import Signup from './features/signup/Signup.jsx'
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard/>}/>
-      <Route path="/product" element={<ProductDetail/>}/>
+      <Route path="/product" element={<Layout><ProductDetail/></Layout> }/>
+      <Route path="*" element={<NotFound/>}/>
     </Routes>
   );
 }

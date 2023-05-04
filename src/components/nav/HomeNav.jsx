@@ -1,7 +1,9 @@
 import React, { useContext, useState } from "react";
 import DmfsseContex from "../../app/contextStore";
+import { useNavigate } from "react-router-dom";
 const HomeNav = () => {
   const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
   const [showDropdown, setShowDropDown] = useState(false);
   const toggleDropDown = () => {
     setShowDropDown(!showDropdown);
@@ -47,80 +49,105 @@ const HomeNav = () => {
           </div>
 
           <div className="flex items-center">
-            <div className="flex items-center ml-3">
-              <div>
-                <button
-                  type="button"
-                  className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                  onClick={toggleDropDown}
-                >
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                    alt="user photo"
-                  ></img>
-                </button>
-              </div>
-              <div
-                className={`z-50 absolute right-0 top-10 ${
-                  showDropdown ? "" : "hidden"
-                } my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600`}
-              >
-                <div className="px-4 py-3" role="none">
-                  <p
-                    className="text-sm text-gray-900 dark:text-white"
-                    role="none"
+            {user ? (
+              <div className="flex items-center ml-3">
+                <div>
+                  <button
+                    type="button"
+                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    onClick={toggleDropDown}
                   >
-                    Getachew Derib
-                  </p>
-                  <p
-                    className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
-                    role="none"
-                  >
-                    gechderib1221@gmail.com
-                  </p>
+                    <span className="sr-only">Open user menu</span>
+                    <img
+                      className="w-8 h-8 rounded-full"
+                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                      alt="user photo"
+                    ></img>
+                  </button>
                 </div>
-                <ul className="py-1" role="none">
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                      role="menuitem"
+                <div
+                  className={`z-50 absolute right-0 top-10 ${
+                    showDropdown ? "" : "hidden"
+                  } my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600`}
+                >
+                  <div className="px-4 py-3" role="none">
+                    <p
+                      className="text-sm text-gray-900 dark:text-white"
+                      role="none"
                     >
-                      Dashboard
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                      role="menuitem"
+                      Getachew Derib
+                    </p>
+                    <p
+                      className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
+                      role="none"
                     >
-                      Settings
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                      role="menuitem"
-                    >
-                      Earnings
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                      role="menuitem"
-                    >
-                      Sign out
-                    </a>
-                  </li>
-                </ul>
+                      gechderib1221@gmail.com
+                    </p>
+                  </div>
+                  <ul className="py-1" role="none">
+                    <li>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                        role="menuitem"
+                      >
+                        Dashboard
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                        role="menuitem"
+                      >
+                        Settings
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                        role="menuitem"
+                      >
+                        Earnings
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          localStorage.removeItem("user");
+                          navigate("/");
+                        }}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                        role="menuitem"
+                      >
+                        Sign out
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex gap-2 text-gray-500">
+                <div
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  className="font-thin hover:underline cursor-pointer"
+                >
+                  Signin
+                </div>
+                <div className="font-thin italic">|</div>
+                <div
+                  onClick={() => {
+                    navigate("/signup");
+                  }}
+                  className="font-thin hover:underline cursor-pointer"
+                >
+                  Signup
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

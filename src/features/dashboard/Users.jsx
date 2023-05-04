@@ -4,14 +4,20 @@ import ItemTable from "../../components/tables/UserTable";
 import AddUser from "../signup/AddUser";
 import DmfsseContex from "../../app/contextStore";
 import EditUser from "../signup/EditUser";
+import UserDetail from "../signup/UserDetail";
 
 const Users = () => {
   const addCtx = useContext(DmfsseContex);
+  console.log(addCtx.showDetail)
   return (
     <div className="p-4 mt-11 sm:ml-64">
       {addCtx.isAdding ? (
         <AddUser />
-      ) : addCtx.isEditing ? <EditUser /> : (
+      ) : addCtx.isEditing ? (
+        <EditUser />
+      ) : addCtx.showDetail ? (
+        <UserDetail />
+      ) : (
         <div>
           <AddItem />
           <ItemTable

@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import DmfsseContex from "../../app/contextStore";
 const SingleItem = ({ img, name, phoneNumber, status, prop1, prop2 }) => {
   const tableCtx = useContext(DmfsseContex);
-  console.log(tableCtx.showModal)
   return (
     <tr className="hover:bg-gray-50">
       <th onClick={()=>tableCtx.setShowDetail(true)} className="cursor-pointer flex gap-3 px-6 py-4 font-normal text-gray-900">

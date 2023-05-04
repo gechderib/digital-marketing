@@ -43,7 +43,12 @@ const Login = () => {
           setPhoneNumber("");
           setLoginStatus("idle");
           localStorage.setItem("user", JSON.stringify(response));
-          navigate("/");
+          const user = JSON.parse(localStorage.getItem("user"));
+          if (user && (user.roles[0] == "admin" || user.roles[0] == "agent")) {
+            navigate("/dashboard");
+          } else {
+            navigate("/");
+          }
         }
       } catch (err) {
         setLoginStatus("failed");
