@@ -9,6 +9,57 @@ const HomeNav = () => {
     setShowDropDown(!showDropdown);
   };
   const sideBarCtx = useContext(DmfsseContex);
+  const forCustomer = () => {
+    if (user) {
+      if (user.roles[0] == "customer") {
+        return (
+          <div className="flex mr-5">
+            <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+              <p className="font-thin">Messages</p>
+              <span className="bg-blue-200 font-thin text-pink-800  p-1 rounded-full w-5 h-5 items-center flex justify-center">
+                3
+              </span>
+            </div>
+            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+              <p className="font-thin">Orders</p>
+            </div>
+            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+              <p className="font-thin">Trainings</p>
+            </div>
+          </div>
+        );
+      }
+      if (user.roles[0] == "sse" || user.roles[0] == "farmer") {
+        return (
+          <div className="flex mr-5">
+            <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+              <p className="font-thin">Messages</p>
+              <span className="bg-blue-200 font-thin text-pink-800  p-1 rounded-full w-5 h-5 items-center flex justify-center">
+                3
+              </span>
+            </div>
+            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+              <p className="font-thin">My Items</p>
+            </div>
+            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+              <p className="font-thin">Orders</p>
+            </div>
+            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+              <p className="font-thin">Offers</p>
+            </div>
+            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+              <p className="font-thin">Trainings</p>
+            </div>
+            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+              <p className="font-thin">Sell</p>
+            </div>
+          </div>
+        );
+      }
+    }else {
+      return null
+    }
+  };
 
   return (
     <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-100">
@@ -49,6 +100,8 @@ const HomeNav = () => {
           </div>
 
           <div className="flex items-center">
+          {forCustomer()}
+
             {user ? (
               <div className="flex items-center ml-3">
                 <div>
@@ -75,25 +128,27 @@ const HomeNav = () => {
                       className="text-sm text-gray-900 dark:text-white"
                       role="none"
                     >
-                      Getachew Derib
+                      {user.firstName} {user.lastName}
                     </p>
                     <p
                       className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                       role="none"
                     >
-                      gechderib1221@gmail.com
+                      {user.phoneNumber}
                     </p>
                   </div>
                   <ul className="py-1" role="none">
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                        role="menuitem"
-                      >
-                        Dashboard
-                      </a>
-                    </li>
+                    {user.roles[0] == "admin" || user.roles[0] == "agent" ? (
+                      <li onClick={()=>navigate("/dashboard")} className="cursor-pointer">
+                        <a
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                          role="menuitem"
+                        >
+                          Dashboard
+                        </a>
+                      </li>
+                    ) : null}
+
                     <li>
                       <a
                         href="#"
@@ -118,7 +173,7 @@ const HomeNav = () => {
                           localStorage.removeItem("user");
                           navigate("/");
                         }}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                         role="menuitem"
                       >
                         Sign out

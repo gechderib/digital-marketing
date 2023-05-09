@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import DmfsseContex from "../../app/contextStore";
-const SingleItem = ({ img, name, phoneNumber, status, prop1, prop2 }) => {
+const SingleItem = ({ img, name, phoneNumber, status, prop1, prop2, onDetailClick , onEdite,onDelete}) => {
   const tableCtx = useContext(DmfsseContex);
   return (
     <tr className="hover:bg-gray-50">
-      <th onClick={()=>tableCtx.setShowDetail(true)} className="cursor-pointer flex gap-3 px-6 py-4 font-normal text-gray-900">
+      <th onClick={onDetailClick} className="cursor-pointer flex gap-3 px-6 py-4 font-normal text-gray-900">
         <div className="relative h-10 w-10">
           <img
             className={`h-full w-full ${
@@ -32,10 +32,10 @@ const SingleItem = ({ img, name, phoneNumber, status, prop1, prop2 }) => {
       <td className="px-6 py-4">{prop2}</td>
       <td className="px-6 py-4">
         <div className="flex justify-end gap-4">
-          <div className="cursor-pointer" onClick={()=> tableCtx.setShowModal(true)}>
+          <div className="cursor-pointer" onClick={onDelete}>
             <span className="material-symbols-outlined">delete</span>
           </div>
-          <div onClick={()=>tableCtx.setIsEditing(true)} className="cursor-pointer">
+          <div onClick={onEdite} className="cursor-pointer">
             <span className="material-symbols-outlined">edit</span>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const loginUrl = "http://localhost:5000/api/dmfsse/signin"
+const loginUrl = "https://digital-marketing-for-farmers-and-sse.onrender.com/api/dmfsse/signin"
 const initialState = { status: "idle", error: null };
 
 

@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import DmfsseContex from "../../app/contextStore";
 
 const TrainingDetail = () => {
+  const trainingDetailCtx = useContext(DmfsseContex)
+  const training = trainingDetailCtx.detailData
+  console.log(training)
   return (
     <div>
       <div class="px-4 sm:px-0">
@@ -16,7 +20,7 @@ const TrainingDetail = () => {
           <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt class="text-sm font-medium leading-6 text-gray-900">Title</dt>
             <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Soil Conservation
+              {training.title}
             </dd>
           </div>{" "}
           <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -24,17 +28,13 @@ const TrainingDetail = () => {
               Description
             </dt>
             <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
-              incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
-              consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-              proident. Irure nostrud pariatur mollit ad adipisicing
-              reprehenderit deserunt qui eu.
+              {training.description}
             </dd>
           </div>
           <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt class="text-sm font-medium leading-6 text-gray-900">By</dt>
             <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Belachew Teshale
+              {training.postedBy.firstName} {training.postedBy.lastName}
             </dd>
           </div>
           <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -49,17 +49,17 @@ const TrainingDetail = () => {
                 <li class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                   <img
                     className="w-full h-96"
-                    src="https://picsum.photos/200/300"
+                    src={training.mediaFile}
                     alt="Training media file"
                   ></img>
                 </li>
-                <li class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                {/* <li class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                   <img
                     className="w-full h-96"
                     src="https://picsum.photos/200/300"
                     alt="Training media file"
                   ></img>
-                </li>
+                </li> */}
               </ul>
             </dd>
           </div>

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AddItem from "../../components/AddItem";
 import ItemTable from "../../components/tables/UserTable";
- 
+
 const Trainings = () => {
   return (
     <div>
