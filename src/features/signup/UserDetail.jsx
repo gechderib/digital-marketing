@@ -1,6 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { userDetail } from "./signupSlice";
 
 const UserDetail = () => {
+  const user = useSelector(userDetail)
+  console.log(user)
   return (
     <div>
       <div class="px-4 sm:px-0">
@@ -18,7 +22,7 @@ const UserDetail = () => {
               Full name
             </dt>
             <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Getachew Derib
+              {user.firstName} {user.lastName}
             </dd>
           </div>
           <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -26,7 +30,7 @@ const UserDetail = () => {
               Role
             </dt>
             <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Farmer
+              {user.roles}
             </dd>
           </div>
           <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -34,7 +38,7 @@ const UserDetail = () => {
               Email address
             </dt>
             <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              gechderib@gmail.com
+              {user.email}
             </dd>
           </div>
           <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -42,7 +46,7 @@ const UserDetail = () => {
               Status
             </dt>
             <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Approved
+              {user.varified?"Approved":"Not Approved"} 
             </dd>
           </div>
 
@@ -50,9 +54,13 @@ const UserDetail = () => {
             <dt class="text-sm font-medium leading-6 text-gray-900">
               Attachments
             </dt>
+            
             <dd class="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <img className="w-full h-96" src="https://picsum.photos/200/300" alt="sse or farmer document"></img>
+              <img className="w-full h-96" src={user.identifictionPicture} alt="sse or farmer document"></img>
             </dd>
+     
+            
+     
           </div>
         </dl>
       </div>

@@ -28,15 +28,14 @@ const Signup = () => {
     firstName,
     lastName,
     email,
-    role,
+    roles:[role],
     phoneNumber,
     password,
     identifictionPicture: dmfsseCtx.imageUrl,
   };
   // get user info from field
-  const getFirstName = (e) => {
-    setFirstName(e.target.value);
-  };
+  const getFirstName = (e) => setFirstName(e.target.value);
+  
   const getLastName = (e) => setLastName(e.target.value);
   const getEmail = (e) => setEmail(e.target.value);
   const getPhoneNumber = (e) => {
@@ -56,6 +55,7 @@ const Signup = () => {
     } else {
       dmfsseCtx.setIsFarmerOrSse(false);
     }
+    setRole(e.target.value)
   };
 
   // handle register

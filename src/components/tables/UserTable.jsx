@@ -12,11 +12,13 @@ import {
 
 import { addDetailData } from "../../features/training/trainingSlice";
 import {
+  addProductDetail,
   allProducts,
   getAllProducts,
   productError,
   productStatus,
 } from "../../features/product/productSlice";
+import { addUserDetail, allUsers, getAllUsers, registerError, registerStatus } from "../../features/signup/signupSlice";
 
 const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
   const dispatch = useDispatch();
@@ -32,12 +34,20 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
   const products = useSelector(allProducts);
   const prodStatus = useSelector(productStatus);
   const prodError = useSelector(productError);
+
+  const users = useSelector(allUsers)
+  const userStatus = useSelector(registerStatus)
+  const userError = useSelector(registerError)
+
   useEffect(() => {
     if (tableCtx.dashboardTab === "users") {
+      if(userStatus == "idle") {
+        dispatch(getAllUsers({token}))
+      }
     }
     if (tableCtx.dashboardTab === "products") {
       if (prodStatus == "idle") {
-        dispatch(getAllProducts({ token, page: 0 }));
+        dispatch(getAllProducts({page: 0 }));
       }
     }
     if (tableCtx.dashboardTab === "training") {
@@ -73,16 +83,41 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
         </thead>
         {tableCtx.dashboardTab === "users" ? (
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-            <SingleItem
-              img={
-                "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              }
-              name={"Getachew Derib"}
-              phoneNumber={"+251953890542"}
-              status={"Active"}
-              prop1={"Farmer"}
-              prop2={"23/3/2023"}
-            />
+            {userError ? (
+              <td>Error happen cant fetch the data</td>
+            ) : userStatus === "loading" ? (
+              <td>Loading</td>
+            ) : userStatus == "succeeded" ? (
+              users.map((user) => (
+                <SingleItem
+                  onDetailClick={() => {
+                    tableCtx.setShowDetail(true);
+                    tableCtx.setDetailData(user);
+                    dispatch(addUserDetail(user));
+                  }}
+                  img={user.profilePicture}
+                  onEdite={() => {
+                    tableCtx.setIsEditing(true);
+                    tableCtx.setDetailData(user);
+                    dispatch(addUserDetail(user));
+                  }}
+                  onDelete={() => {
+                    tableCtx.setShowModal(true);
+                    tableCtx.setDetailData(user);
+                    dispatch(addUserDetail(user));
+                  }}
+                  phoneNumber={user.phoneNumber}
+                  name={`${user.firstName} ${user.lastName}`}
+                  status={user.verified ? <span class="material-symbols-outlined h-4 w-4">
+                  verified_user
+                  </span> : "not verified"}
+                  prop1={user.roles[0]}
+                  prop2={user.createdAt}
+                />
+              ))
+            ) : (
+              <p>something went wrong please check your connection</p>
+            )}
           </tbody>
         ) : tableCtx.dashboardTab === "products" ? (
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
@@ -96,18 +131,18 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
                   onDetailClick={() => {
                     tableCtx.setShowDetail(true);
                     tableCtx.setDetailData(product);
-                    dispatch(addDetailData(product));
+                    dispatch(addProductDetail(product));
                   }}
                   img={product.photo}
                   onEdite={() => {
                     tableCtx.setIsEditing(true);
                     tableCtx.setDetailData(product);
-                    dispatch(addDetailData(product));
+                    dispatch(addProductDetail(product));
                   }}
                   onDelete={() => {
                     tableCtx.setShowModal(true);
                     tableCtx.setDetailData(product);
-                    dispatch(addDetailData(product));
+                    dispatch(addProductDetail(product));
                   }}
                   phoneNumber={product.postedBy.phoneNumber}
                   name={product.name}

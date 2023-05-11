@@ -2,13 +2,15 @@ import React, { useContext } from "react";
 import DmfsseContex from "../app/contextStore";
 import { useDispatch } from "react-redux";
 import { deleteTraining } from "../features/training/trainingSlice";
+import { deleteProduct } from "../features/product/productSlice";
+import { deleteUser } from "../features/signup/signupSlice";
 
 const Modal = () => {
   const modalCtx = useContext(DmfsseContex);
   const item = modalCtx.detailData;
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.accessToken;
-  
+
   const dispatch = useDispatch();
   return (
     <div
@@ -47,7 +49,15 @@ const Modal = () => {
             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
               <button
                 onClick={() => {
-                  dispatch(deleteTraining({ id: item._id, token }));
+                  if (modalCtx.dashboardTab == "training") {
+                    dispatch(deleteTraining({ id: item._id, token }));
+                  }
+                  if (modalCtx.dashboardTab == "products") {
+                    dispatch(deleteProduct({ id: item._id, token }));
+                  }
+                  if (modalCtx.dashboardTab == "users") {
+                    dispatch(deleteUser({id:item._id, token}))
+                  }
                   modalCtx.setShowModal(false);
                 }}
                 type="button"

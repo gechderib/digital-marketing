@@ -1,9 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const user = JSON.parse(localStorage.getItem("user"))
 const mainUrl = "https://digital-marketing-for-farmers-and-sse.onrender.com/api/dmfsse";
+const localUrl = "http://localhost:5000/api/dmfsse";
+
 const initialState = {
   products: [],
+  product:{},
   detailData:{},
   status: "idle", // loading, success, failed
   error: null,
@@ -30,12 +34,11 @@ export const addNewProduct = createAsyncThunk(
 
 export const getAllProducts = createAsyncThunk(
   "product/getAllProduct",
-  async ({ token, page = 0 }) => {
+  async ({ page = 0 }) => {
     try {
       const response = await axios.get(`${mainUrl}/products?p=${page}`, {
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": `${token}`,
         },
       });
       
@@ -46,11 +49,11 @@ export const getAllProducts = createAsyncThunk(
   }
 );
 
-export const getOneTraining = createAsyncThunk(
-  "training/getOneTraining",
+export const getOneProduct = createAsyncThunk(
+  "product/getOneProduct",
   async (id) => {
     try {
-      const response = await axios.get(`${mainUrl}/training/${id}`);
+      const response = await axios.get(`${mainUrl}/product/${id}`);
       return response.data;
     } catch (err) {
       return err.code;
@@ -58,11 +61,11 @@ export const getOneTraining = createAsyncThunk(
   }
 );
 
-export const deleteTraining = createAsyncThunk(
-  "training/deleteTraining",
+export const deleteProduct = createAsyncThunk(
+  "product/deleteProduct",
   async ({ id, token }) => {
     try {
-      const response = await axios.delete(`${mainUrl}/training/${id}`, {
+      const response = await axios.delete(`${mainUrl}/product/${id}`, {
         headers: {
           "Content-Type": "application/json",
           "x-access-token": `${token}`,
@@ -75,11 +78,11 @@ export const deleteTraining = createAsyncThunk(
   }
 );
 
-export const updateTraining = createAsyncThunk(
-  "training/updateTraining",
+export const updateProduct = createAsyncThunk(
+  "product/updateProduct",
   async ({ newData, id, token }) => {
     try {
-      const response = await axios.patch(`${mainUrl}/training/${id}`, newData, {
+      const response = await axios.patch(`${mainUrl}/product/${id}`, newData, {
         headers: {
           "Content-Type": "application/json",
           "x-access-token": `${token}`,
@@ -96,7 +99,7 @@ const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    addDetailData(state, action) {
+    addProductDetail(state, action) {
       state.detailData = action.payload;
     },
   },
@@ -120,40 +123,45 @@ const productSlice = createSlice({
           postedBy: { firstName: user.firstName, lastName: user.lastName },
         });
       })
-      .addCase(getOneTraining.pending, (state, action) => {
+      .addCase(getOneProduct.pending, (state, action) => {
         state.status = "loading";
       })
-      .addCase(getOneTraining.rejected, (state, action) => {
+      .addCase(getOneProduct.rejected, (state, action) => {
         state.status = "failed";
         state.err = action.payload;
       })
-      .addCase(getOneTraining.fulfilled, (state, action) => {
+      .addCase(getOneProduct.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.training = action.payload;
+        state.product = action.payload;
       })
-      .addCase(deleteTraining.fulfilled, (state, action) => {
+      .addCase(deleteProduct.fulfilled, (state, action) => {
         state.products = state.products.filter(
-          (product) => product._id != action.payload.id
+          (product) => product._id != state.detailData._id
         );
       })
-      .addCase(updateTraining.fulfilled, (state, action) => {
+      .addCase(updateProduct.fulfilled, (state, action) => {
         state.products = state.products.filter(
-          (product) => product._id !== action.payload.id
+          (product) => product._id !== action.payload.data._id
         );
         const data = {
-          id: `${action.payload.id}`,
-          title: `${action.payload.data.title}`,
+          _id: `${action.payload.data._id}`,
+          name: `${action.payload.data.name}`,
           description: `${action.payload.data.description}`,
-          mediaFile: `${action.payload.data.mediaFile}`,
+          price: `${action.payload.data.price}`,
+          amount: `${action.payload.data.amount}`,
+          soldout: `${action.payload.data.soldout}`,
+          photo: `${action.payload.data.photo}`,
           postedBy: {
             firstName: `${user.firstName}`,
             lastName: `${user.lastName}`,
+            phoneNumber: `${user.phoneNumber}`,
+            profilePicture: `${user.profilePicture}`,
+            roles: `${user.roles}`,
+            verified: user.verified
           },
-          createdAt: `${action.payload.data.createdAt}`,
         };
 
-        state.trainings.push(data);
-        console.log(action.payload);
+        state.products.push(data);
       });
   },
 });
@@ -164,5 +172,5 @@ export const productStatus = (state) => state.products.status;
 export const productError = (state) => state.products.error;
 export const productDetail = (state) => state.products.detailData
 
-export const {addDetailData} = productSlice.actions
+export const {addProductDetail} = productSlice.actions
 export default productSlice.reducer;

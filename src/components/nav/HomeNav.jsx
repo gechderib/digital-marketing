@@ -87,7 +87,7 @@ const HomeNav = () => {
               </svg>
             </button>
 
-            <a href="#" className="flex ml-2 md:mr-24">
+            <div  onClick={()=>{navigate("/")}} className="flex ml-2 md:mr-24 cursor-pointer">
               <img
                 className="h-8 mr-3"
                 src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
@@ -96,7 +96,7 @@ const HomeNav = () => {
               <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                 Gebeya
               </span>
-            </a>
+            </div>
           </div>
 
           <div className="flex items-center">

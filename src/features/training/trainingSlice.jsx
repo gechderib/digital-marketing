@@ -2,7 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const user = JSON.parse(localStorage.getItem("user"));
+console.log(user)
 const mainUrl = "https://digital-marketing-for-farmers-and-sse.onrender.com/api/dmfsse";
+const localUrl = "http://localhost:5000/api/dmfsse";
 var initialState = {
   trainings: [],
   training: {},
@@ -141,14 +143,14 @@ const trainingSlice = createSlice({
           (training) => training._id !== action.payload.id
         );
         const data = {
-          id:`${action.payload.id}`,
+          _id:`${action.payload.id}`,
           title:`${action.payload.data.title}`,
           description:`${action.payload.data.description}`,
           mediaFile:`${action.payload.data.mediaFile}`,
           postedBy: {firstName:`${user.firstName}`, lastName:`${user.lastName}`},
           createdAt:`${action.payload.data.createdAt}`
         }
-   
+        
         state.trainings.push(data);
         console.log(action.payload);
       });

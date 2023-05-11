@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const loginUrl = "https://digital-marketing-for-farmers-and-sse.onrender.com/api/dmfsse/signin"
+const localUrl = "https://digital-marketing-for-farmers-and-sse.onrender.com/api/dmfsse"
+const mainUrl = "http://localhost:5000/api/dmfsse";
+
 const initialState = { status: "idle", error: null };
 
 
@@ -11,7 +13,7 @@ export const loginUser = createAsyncThunk(
   async (initialData) => {
     console.log(initialData)
     try{
-        const response = await axios.post(loginUrl, initialData)
+        const response = await axios.post(`${mainUrl}/signin`, initialData)
         return response.data
     }catch(err){
         return err.code
