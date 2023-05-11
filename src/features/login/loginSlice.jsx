@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const localUrl = "https://digital-marketing-for-farmers-and-sse.onrender.com/api/dmfsse"
-const mainUrl = "http://localhost:5000/api/dmfsse";
+const mainUrl = "https://digital-marketing-for-farmers-and-sse.onrender.com/api/dmfsse"
+const localurl = "http://localhost:5000/api/dmfsse";
 
 const initialState = { status: "idle", error: null };
 
