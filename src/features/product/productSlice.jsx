@@ -55,6 +55,7 @@ export const getOneProduct = createAsyncThunk(
     try {
       const response = await axios.get(`${mainUrl}/product/${id}`);
       return response.data;
+      
     } catch (err) {
       return err.code;
     }
@@ -132,6 +133,7 @@ const productSlice = createSlice({
       })
       .addCase(getOneProduct.fulfilled, (state, action) => {
         state.status = "succeeded";
+        state.productDetail = action.payload;
         state.product = action.payload;
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {

@@ -19,12 +19,12 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const products = useSelector(allProducts);
   const prodStatus = useSelector(productStatus);
   const prodError = useSelector(productError);
-
 
   useEffect(() => {
     dispatch(getAllProducts({ page: 0 }));
@@ -33,7 +33,8 @@ const Home = () => {
   return (
     <Layout>
       <div className="h-24"></div>
-      <BuyNowCard />
+      {user ? null : <BuyNowCard />}
+
       {/* <SortedBy /> */}
 
       {prodError ? (
@@ -49,9 +50,9 @@ const Home = () => {
               price={product.price}
               prodImg={product.photo}
               postedBy={product.postedBy.firstName}
-              onDetail={()=>{
-                dispatch(addProductDetail(product))
-                navigate("/product")
+              onDetail={() => {
+                dispatch(addProductDetail(product));
+                navigate(`/product/${product._id}`);
               }}
             />
           ))}

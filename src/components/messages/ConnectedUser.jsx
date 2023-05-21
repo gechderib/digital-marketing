@@ -1,25 +1,24 @@
-import React from "react";
 
-const ConnectedUser = () => {
+const ConnectedUser = ({hoursAgo, userName, lastMessage,onViewMessage}) => {
   return (
-    <div className="flex flex-row items-center p-4 relative">
+    <div onClick={onViewMessage}  className="flex flex-row items-center p-4 relative cursor-pointer">
       <div className="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">
-        2 hours ago
+        {hoursAgo} hours ago
       </div>
       <div className="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
-        T
+        {userName.slice(0,1)}
       </div>
       <div className="flex flex-col flex-grow ml-3">
-        <div className="text-sm font-medium">Flo Steinle</div>
+        <div className="text-sm font-medium">{userName}</div>
         <div className="text-xs truncate w-40">
-          Good after noon! how can i help you?
+          {lastMessage}
         </div>
       </div>
-      <div className="flex-shrink-0 ml-2 self-end mb-1">
+      {/* <div className="flex-shrink-0 ml-2 self-end mb-1">
         <span className="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full">
           3
         </span>
-      </div>
+      </div> */}
     </div>
   );
 };

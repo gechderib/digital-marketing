@@ -1,12 +1,49 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DmfsseContex from "../../app/contextStore";
 import { useDispatch, useSelector } from "react-redux";
-import { productDetail } from "./productSlice";
+import { getOneProduct, productDetail } from "./productSlice";
+import { addNewMessage } from "../../components/messages/messageSlice";
+import { useParams } from "react-router-dom";
 
 const ProductDetail = () => {
   const detailCtx = useContext(DmfsseContex);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user.accessToken;
   const dispatch = useDispatch();
   const product = useSelector(productDetail);
+  const [message, setMessage] = useState("");
+  const [requestStatus, setRequestStatus] = useState("idle");
+
+  const messageInfo = {
+    message: message,
+  };
+
+  const canSave = [message, token].every(Boolean);
+
+  const addMessage = async (e) => {
+    e.preventDefault();
+    setRequestStatus("idle");
+    if (canSave) {
+      try {
+        setRequestStatus("pending");
+        const response = await dispatch(
+          addNewMessage({ initalData: messageInfo, token,id:product.postedBy._id })
+        ).unwrap();
+        if (response == "ERR_BAD_REQUEST") {
+          setRequestStatus("bad_err");
+        }
+        if (response == "ERR_NETWORK") {
+          setRequestStatus("net_err");
+        }
+        if (response.message) {
+          setMessage("");
+        }
+      } catch (err) {
+        setRequestStatus("failed");
+      }
+    }
+  };
+
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white">
       <div className="container">
@@ -67,7 +104,9 @@ const ProductDetail = () => {
                   </p>
                   <p>
                     {product.postedBy.verified ? (
-                      <span class="material-symbols-outlined text-green-800">verified</span>
+                      <span class="material-symbols-outlined text-green-800">
+                        verified
+                      </span>
                     ) : null}
                   </p>
                 </div>
@@ -77,16 +116,81 @@ const ProductDetail = () => {
               <div className="title-font font-medium text-2xl text-gray-900">
                 <p>{product.price} ETB/KG</p>
               </div>
-              <button
-                onClick={() => detailCtx.setShowDetail(false)}
-                className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
-              >
-                Add To Cart
-              </button>
+              {detailCtx.isChatStarted ? null : (
+                <button
+                  onClick={() => {
+                    detailCtx.setShowDetail(false);
+                    detailCtx.setIsChatStarted(true);
+                  }}
+                  className="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
+                >
+                  Add To Cart
+                </button>
+              )}
             </div>
-            <div>
-              
-            </div>
+            {detailCtx.isChatStarted ? (
+              <div className="mt-4">
+                <form onSubmit={addMessage}>
+                  <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                    {requestStatus == "net_err" ? (
+                      <p className="text-red-600 mb-4 italic animate-bounce font-thin">
+                        Pleace check your connection
+                      </p>
+                    ) : requestStatus == "bad_err" ? (
+                      <p className="text-red-600 mb-4 italic animate-bounce font-thin">
+                        You are not allowed to add product
+                      </p>
+                    ) : requestStatus == "failed" ? (
+                      <p className="mb-4 animate-bounce font-thin">
+                        error happen please try again
+                      </p>
+                    ) : null}
+                    <div className="flex m-2  justify-between items-center">
+                      <div className="flex gap-3 ">
+                        <div class="text-pink-dark font-thin py-2 px-4 border border-pink-600 cursor-pointer rounded">
+                          Make An Offer
+                        </div>
+                        <div class="bg-transparent text-blue-dark font-thin py-2 px-4 border border-pink-600 cursor-pointer rounded">
+                          Is Available
+                        </div>{" "}
+                        <div class="bg-transparent text-blue-dark font-thin py-2 px-4 border border-pink-600 cursor-pointer rounded">
+                          Last Price
+                        </div>
+                      </div>
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => detailCtx.setIsChatStarted(false)}
+                      >
+                        <span class="material-symbols-outlined">close</span>
+                      </div>
+                    </div>
+                    <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                      <label for="messasge" className="sr-only">
+                        Your messasge
+                      </label>
+                      <textarea
+                        onChange={(e) => setMessage(e.target.value)}
+                        id="messasge"
+                        rows="4"
+                        value={message}
+                        className="w-full px-0 text-sm text-gray-900 bg-white border-0  focus:ring-0 pl-3 pt-3"
+                        placeholder="Write a message..."
+                        required
+                      ></textarea>
+                    </div>
+                    <div className="flex items-center justify-between px-3 py-2 border-t ">
+                      <button
+                        type="submit"
+                        className="inline-flex items-center gap-3 py-2.5 px-4 text-xs font-medium text-center text-white bg-pink-700 rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-pink-800"
+                      >
+                        <span class="material-symbols-outlined">chat</span>{" "}
+                        <span>Start Chat</span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

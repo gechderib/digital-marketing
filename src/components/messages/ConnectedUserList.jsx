@@ -1,17 +1,59 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ConnectedUser from "./ConnectedUser";
 import Header from "./Header";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  connectedUser,
+  connectedUserStatus,
+  getConnectedUser,
+  getYourMessage,
+} from "./messageSlice";
 
 const ConnectedUserList = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user.accessToken;
+  const connectedUsers = useSelector(connectedUser);
+  const connetuserStatus = useSelector(connectedUserStatus);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getConnectedUser({ token }));
+  }, [dispatch]);
+
+  const viewMessage = (id, token) => {
+    try {
+      dispatch(getYourMessage({id, token}));
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
-    <div className="flex flex-row w-96 flex-shrink-0 bg-gray-100 p-4 mb-16">
+    <div className="flex flex-row  md:w-96 flex-shrink-0 bg-gray-100 p-4 mb-16">
       <div className="flex flex-col w-full h-full pl-4 pr-4 py-4 -mr-4">
-        <Header/>
+        {/* <Header/> */}
         <div className="h-full overflow-hidden relative pt-2">
           <div className="flex flex-col divide-y h-full overflow-y-auto -mx-4">
-            <ConnectedUser/>
+            {connetuserStatus == "loading" ? (
+              <p>loading...</p>
+            ) : connetuserStatus == "succeeded" ? (
+              connectedUsers.map((user) => {
+                console.log(user);
+                return (
+                  <ConnectedUser
+                    onViewMessage={() => {
+                      viewMessage(user._id,token);
+                    }}
+                    hoursAgo={"1:30"}
+                    lastMessage={`${user._id} Good after noon! how can i help you?`}
+                    userName={`${user.firstName} ${user.lastName}`}
+                  />
+                );
+              })
+            ) : (
+              <p>please try again</p>
+            )}
           </div>
-          <div className="absolute bottom-0 right-0 mr-2">
+          <div className="absolute bottom-0 right-0">
             <button className="flex items-center justify-center shadow-sm h-10 w-10 bg-red-500 text-white rounded-full">
               <span className="material-symbols-outlined">add</span>
             </button>

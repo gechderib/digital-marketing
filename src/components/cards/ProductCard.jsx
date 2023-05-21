@@ -4,7 +4,7 @@ const ProductCard = ({ prodImg, name, price, description ,postedBy, onDetail}) =
     <div onClick={onDetail}  className="w-full cursor-pointer shadow-xl hover:opacity-80  border border-gray-200 rounded-lg pb-3  hover:border-2">
       <div className="relative">
         <img
-          className="w-full rounded-tl-lg rounded-tr-lg"
+          className="w-full h-64 rounded-tl-lg rounded-tr-lg"
           src={prodImg}
           alt="product img"
         ></img>
@@ -21,7 +21,7 @@ const ProductCard = ({ prodImg, name, price, description ,postedBy, onDetail}) =
           <p className="font-bold italic">{price} ETB</p>
         </div>
         <div className="mt-4">
-          <p className="font-thin  ">{description}</p>
+          <p className="font-thin  ">{`${description.substring(0,100)}...`}</p>
         </div>
 
         <div className="flex items-center justify-between mt-2">
