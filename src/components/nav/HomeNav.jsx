@@ -190,7 +190,7 @@ const HomeNav = () => {
                   }}
                   className="font-thin hover:underline cursor-pointer"
                 >
-                  Signin
+                  Sign in
                 </div>
                 <div className="font-thin italic">|</div>
                 <div
@@ -199,7 +199,7 @@ const HomeNav = () => {
                   }}
                   className="font-thin hover:underline cursor-pointer"
                 >
-                  Signup
+                  Sign up
                 </div>
               </div>
             )}

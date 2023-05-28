@@ -129,7 +129,11 @@ const Login = () => {
                         </label>
                       </div>
                       {/* Submit button */}
-                      <button className="mb-6 mt-5 py-2 flex justify-center hover:bg-gray-950 rounded-lg text-center bg-black  w-full">
+                      <button 
+                      style={{
+                        background:'#054112',
+                      hover:'#3DA12E'}}
+                      className="mb-6 mt-5 py-2 flex justify-center hover:bg-gray-950 rounded-lg text-center w-full">
                         {loginStatus == "pending" ? (
                           <div>
                             <svg
@@ -164,14 +168,18 @@ const Login = () => {
                       </div>
 
                       {/* Register button */}
-                      <div className="flex items-center justify-between pb-6">
+                      <div className="items-center justify-between pb-6">
                         <p className="mb-0 mr-2">Don't have an account?</p>
                         <button
+                        style={{
+                          color:'white',
+                          background:'#13591C',
+                        hover:'#3DA12E'}}
                           onClick={() => {
                             navigate("/signup");
                           }}
                           type="button"
-                          className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                          className="inline-block rounded-lg border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                         >
                           Register
                         </button>

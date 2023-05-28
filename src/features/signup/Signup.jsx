@@ -91,8 +91,8 @@ const Signup = () => {
   };
 
   return (
-    <section className="gradient-form h-full bg-neutral-200">
-      <div className="container h-full p-10">
+    <section className="gradient-form h-auto bg-neutral-200">
+      <div className="container h-auto p-5">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800">
           <div className="w-full">
             <div className="block rounded-lg bg-white shadow-lg">
@@ -108,7 +108,7 @@ const Signup = () => {
                         alt="logo"
                       />
                       <h4 className="mb-5 mt-1 pb-1 text-xl font-semibold">
-                        We are The G8 Team
+                        Dገበያ
                       </h4>
                     </div>
 
@@ -134,7 +134,7 @@ const Signup = () => {
                             htmlFor="firstName"
                             className="uppercase  text-[11px]  text-gray-900 bg-white relative px-1  top-2 left-3 w-auto group-focus-within:text-rose-400"
                           >
-                            First Name *
+                           Name *
                           </label>
                           <input
                             type="text"
@@ -144,7 +144,7 @@ const Signup = () => {
                             value={firstName}
                             className={`h-9 text-10 bg-gray-50 border py-55-rem border-gray-300 text-gray-900 text-sm rounded-xl block w-full p-2.5 focus:border-transparent focus:ring-0 focus:border-gray-400`}
                             required={true}
-                            placeholder="johnson"
+                            placeholder="Enter Your Name"
                           />
                         </div>
                         <div className="relative z-0 w-full group">
@@ -152,7 +152,7 @@ const Signup = () => {
                             htmlFor="lastName"
                             className="uppercase  text-[11px]  text-gray-900 bg-white relative px-1  top-2 left-3 w-auto group-focus-within:text-rose-400"
                           >
-                            Last Name *
+                            Father's Name *
                           </label>
                           <input
                             type="text"
@@ -162,7 +162,7 @@ const Signup = () => {
                             value={lastName}
                             className="h-9 text-10 bg-gray-50 border py-55-rem border-gray-300 text-gray-900 text-sm rounded-xl block w-full p-2.5 focus:border-transparent focus:ring-0 focus:border-gray-400"
                             required={true}
-                            placeholder="Andrew"
+                            placeholder="Enter Father's Name"
                           />
                         </div>
                       </div>
@@ -173,7 +173,7 @@ const Signup = () => {
                             htmlFor="email"
                             className="uppercase  text-[11px]  text-gray-900 bg-white relative px-1  top-2 left-3 w-auto group-focus-within:text-rose-400"
                           >
-                            Email
+                            Email *
                           </label>
                           <input
                             type="email"
@@ -239,7 +239,7 @@ const Signup = () => {
                             value={password}
                             className="h-9 text-10 bg-gray-50 border py-55-rem border-gray-300 text-gray-900 text-sm rounded-xl block w-full p-2.5 focus:border-transparent focus:ring-0 focus:border-gray-400"
                             required={true}
-                            placeholder="abcd@1234!"
+                            placeholder="********"
                           />
                         </div>
                       </div>
@@ -248,7 +248,10 @@ const Signup = () => {
                       {/* Submit button */}
                       <button
                         type="submit"
-                        className="flex justify-center mb-12 mt-5 px-3 py-2 hover:bg-gray-900 text-center w-full bg-black rounded-lg"
+                        style={{
+                          background:'#054112',
+                        }}
+                        className="flex justify-center mb-12 mt-5 px-3 py-2 hover:bg-green-900 text-center w-full rounded-lg"
                       >
                         {requestStatus == "pending" ? (
                           <div>
@@ -275,16 +278,20 @@ const Signup = () => {
                       </button>
 
                       {/* Register button */}
-                      <div className="flex items-center justify-between pb-6">
+                      <div className="items-center justify-between pb-6">
                         <p className="mb-0 mr-2">Already have an account?</p>
                         <button
+                        style={{
+                          color:'white',
+                          background:'#13591C',
+                        hover:'#3DA12E'}}
                           onClick={() => {
                             navigate("/login");
                           }}
                           type="button"
-                          className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                          className="inline-block rounded-lg border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                         >
-                          Login
+                          Log in
                         </button>
                       </div>
                     </form>

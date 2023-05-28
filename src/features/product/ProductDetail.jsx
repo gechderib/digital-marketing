@@ -118,11 +118,14 @@ const ProductDetail = () => {
               </div>
               {detailCtx.isChatStarted ? null : (
                 <button
+                style={{
+                  background:'#054112',
+                hover:'#3DA12E'}}
                   onClick={() => {
                     detailCtx.setShowDetail(false);
                     detailCtx.setIsChatStarted(true);
                   }}
-                  className="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
+                  className="flex ml-auto text-white border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
                 >
                   Add To Cart
                 </button>
