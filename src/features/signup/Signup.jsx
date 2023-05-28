@@ -107,9 +107,9 @@ const Signup = () => {
                         src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
                         alt="logo"
                       />
-                      <h4 className="mb-5 mt-1 pb-1 text-xl font-semibold">
-                        Dገበያ
-                      </h4>
+                      <h5 className="mb-5 mt-1 pb-1 text-xl font-semibold">
+                      THE FUTURE OF AGRO INNOVATION
+                      </h5>
                     </div>
 
                     <form onSubmit={handleSubmit}>

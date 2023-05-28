@@ -6,7 +6,7 @@ const AuthRight = () => {
     className="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
     style={{
       background:
-        "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
+        "linear-gradient(to right, #24ee50, #448a24, #0C521B, #054012)",
     }}
   >
     <div className="px-4 py-6 text-white md:mx-6 md:p-12">
