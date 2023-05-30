@@ -11,7 +11,9 @@ import AddTraining from "./features/training/AddTraining";
 import NotFound from "./components/error page/NotFound";
 import Inbox from "./features/dashboard/Inbox";
 import ProductPage from "./features/home/ProductPage";
+
 // import Signup from './features/signup/Signup.jsx'
+
 
 function App() {
   return (

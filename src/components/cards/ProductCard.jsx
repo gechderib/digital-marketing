@@ -26,12 +26,12 @@ const ProductCard = ({ prodImg, name, price, description ,postedBy, onDetail}) =
 
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center">
-          <span class="material-symbols-outlined text-red-500">star</span>
-          <span class="material-symbols-outlined text-red-500">star</span>
-          <span class="material-symbols-outlined text-red-500">star</span>
-          <span class="material-symbols-outlined text-red-500">star</span>
+          <span class="material-symbols-outlined text-green-500">star</span>
+          <span class="material-symbols-outlined text-green-500">star</span>
+          <span class="material-symbols-outlined text-green-500">star</span>
+          <span class="material-symbols-outlined text-green-500">star</span>
           <span class="material-symbols-outlined text-gray-500">star</span>
-          </div>
+        </div>
           <p className="hover:underline cursor-pointer">By- {postedBy}</p>
         </div>
         {/* <div className="inline-flex gap-2 rounded-2xl border-gray-300 mt-4 border-2 py-1 px-4 text-gray-500 cursor-pointer font-bold self-center">

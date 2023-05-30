@@ -22,9 +22,17 @@ const BuyNowCard = () => {
         "linear-gradient(to right, #24ee50, #448a24, #0C521B, #054012)",
     }} className="sm:flex justify-between  py-8 px-16 sm:mx-10 mx-2 rounded-3xl">
       <div className="flex flex-col justify-evenly">
-        <h1>WELCOME TO Dገበያ</h1>
-        <h3>THE FUTURE OF AGRO INNOVATION</h3>
-        <a href="/login" className="group my-5 flex w-44 cursor-pointer select-none items-center justify-center rounded-md bg-black px-6 py-2 text-white transition">
+        <h1 style={{
+          fontSize:'48px',
+          color:'white'
+      }}>WELCOME TO <span style={{color:'#054012',border:'white'}}>Dገበያ</span></h1>
+        <h3 style={{fontSize:'24px',  color:'white'}}>THE FUTURE OF <span style={{color:'#054012',fontWeight:'bold'}}>AGRO</span> INNOVATION</h3>
+        <a href="/login"  
+        style={{
+          color:'white',
+          background:'#13591C',
+        hover:'#3DA12E'}}
+        className="group my-5 flex w-44 cursor-pointer select-none items-center justify-center rounded-md bg-black px-6 py-2 text-white transition">
         <span className="group flex w-full items-center justify-center rounded py-1 text-center font-bold"> Shop now </span>
         <svg className="flex-0 group-hover:w-6 ml-4 h-6 w-0 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
           <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />

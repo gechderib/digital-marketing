@@ -58,14 +58,14 @@ const Login = () => {
   console.log(loginStatus);
   return (
     <section className="gradient-form h-full bg-neutral-200 dark:bg-neutral-700">
-      <div className="container h-full p-10">
+      <div className="container h-full p-2">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
           <div className="w-full">
-            <div className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
+            <div style={{height:'610px'}} className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
               <div className="g-0 lg:flex lg:flex-wrap">
                 {/* Left column container */}
-                <div className="px-4 md:px-0 lg:w-6/12">
-                  <div className="md:mx-6 md:p-12">
+                <div style={{height:'610px'}} className="px-4 md:px-0 lg:w-6/12">
+                  <div className="md:mx-6 md:p-5">
                     {/* Logo */}
                     <div className="text-center">
                       <img
@@ -73,7 +73,7 @@ const Login = () => {
                         src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
                         alt="logo"
                       />
-                      <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
+                      <h4 className="mb-1 mt-1 pb-1 text-xl font-semibold">
                       THE FUTURE OF AGRO INNOVATION
                       </h4>
                     </div>
@@ -161,14 +161,14 @@ const Login = () => {
 
                         {/* Forgot password link */}
                       </button>
-                      <div className="flex justify-center mb-12">
+                      <div className="flex justify-center mb-2">
                         <a className="text-center" href="#!">
                           Forgot password?
                         </a>
                       </div>
 
                       {/* Register button */}
-                      <div className="items-center justify-between pb-6">
+                      <div className="items-center justify-between pb-4">
                         <p className="mb-0 mr-2">Don't have an account?</p>
                         <button
                         style={{
@@ -179,7 +179,7 @@ const Login = () => {
                             navigate("/signup");
                           }}
                           type="button"
-                          className="inline-block rounded-lg border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                          className="inline-block rounded-lg border-2 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out hover:bg-neutral-500 hover:bg-opacity-10 focus:outline-none focus:ring-0 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                         >
                           Register
                         </button>

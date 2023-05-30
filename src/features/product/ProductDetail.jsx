@@ -27,7 +27,7 @@ const ProductDetail = () => {
       try {
         setRequestStatus("pending");
         const response = await dispatch(
-          addNewMessage({ initalData: messageInfo, token,id:product.postedBy._id })
+          addNewMessage({ initalData: messageInfo, token, id:product.postedBy._id })
         ).unwrap();
         if (response == "ERR_BAD_REQUEST") {
           setRequestStatus("bad_err");
@@ -71,19 +71,19 @@ const ProductDetail = () => {
             </h1>
             <div className="flex mb-4">
               <span className="flex items-center">
-                <span className="material-symbols-outlined text-red-500">
+                <span className="material-symbols-outlined text-green-500">
                   star
                 </span>
-                <span className="material-symbols-outlined text-red-500">
+                <span className="material-symbols-outlined text-green-500">
                   star
                 </span>
-                <span className="material-symbols-outlined text-red-500">
+                <span className="material-symbols-outlined text-green-500">
                   star
                 </span>
-                <span className="material-symbols-outlined text-red-500">
+                <span className="material-symbols-outlined text-green-500">
                   star
                 </span>
-                <span className="material-symbols-outlined text-red-500">
+                <span className="material-symbols-outlined text-gray-500">
                   star
                 </span>
                 <span className="text-gray-600 ml-3">4 Reviews</span>
@@ -136,11 +136,11 @@ const ProductDetail = () => {
                 <form onSubmit={addMessage}>
                   <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                     {requestStatus == "net_err" ? (
-                      <p className="text-red-600 mb-4 italic animate-bounce font-thin">
+                      <p className="text-green-600 mb-4 italic animate-bounce font-thin">
                         Pleace check your connection
                       </p>
                     ) : requestStatus == "bad_err" ? (
-                      <p className="text-red-600 mb-4 italic animate-bounce font-thin">
+                      <p className="text-green-600 mb-4 italic animate-bounce font-thin">
                         You are not allowed to add product
                       </p>
                     ) : requestStatus == "failed" ? (
@@ -153,12 +153,7 @@ const ProductDetail = () => {
                         <div class="text-pink-dark font-thin py-2 px-4 border border-pink-600 cursor-pointer rounded">
                           Make An Offer
                         </div>
-                        <div class="bg-transparent text-blue-dark font-thin py-2 px-4 border border-pink-600 cursor-pointer rounded">
-                          Is Available
-                        </div>{" "}
-                        <div class="bg-transparent text-blue-dark font-thin py-2 px-4 border border-pink-600 cursor-pointer rounded">
-                          Last Price
-                        </div>
+                        
                       </div>
                       <div
                         className="cursor-pointer"
@@ -187,7 +182,7 @@ const ProductDetail = () => {
                         className="inline-flex items-center gap-3 py-2.5 px-4 text-xs font-medium text-center text-white bg-pink-700 rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-pink-800"
                       >
                         <span class="material-symbols-outlined">chat</span>{" "}
-                        <span>Start Chat</span>
+                        <span>Send</span>
                       </button>
                     </div>
                   </div>

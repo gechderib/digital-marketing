@@ -1,65 +1,76 @@
-import React from 'react'
+import React from 'react';
 
 const Footer = () => {
   return (
     
-<footer className="relative bg-gray-100 pt-8 pb-6">
-  <div className="container mx-auto px-4">
-    <div className="flex flex-wrap text-left lg:text-left">
-      <div className="w-full lg:w-6/12 px-4">
-        <h4 className="text-3xl fonat-semibold text-blueGray-700">Let's keep in touch!</h4>
-        <h5 className="text-lg mt-0 mb-2 text-blueGray-600">
-          Find us on any of these platforms, we respond 1-2 business days.
-        </h5>
-        <div className="mt-6 lg:mb-0 mb-6">
+<footer>
+<section id="contact" className="contact section-bg">
+                    <div className="container">
 
-          <button className="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
-            <i className="fab fa-twitter"></i></button><button className="bg-white text-lightBlue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
-            <i className="fab fa-facebook-square"></i></button><button className="bg-white text-pink-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
-            <i className="fab fa-instagram"></i></button><button className="bg-white text-blueGray-800 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
-            <i className="fab fa-github"></i>
-          </button>
-        </div>
-      </div>
-      <div className="w-full lg:w-6/12 px-4">
-        <div className="flex flex-wrap items-top mb-6">
-          <div className="w-full lg:w-4/12 px-4 ml-auto">
-            <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">Useful Links</span>
-            <ul className="list-unstyled">
-              <li>
-                <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://www.creative-tim.com/presentation?ref=njs-profile">About Us</a>
-              </li>
-              <li>
-                <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://blog.creative-tim.com?ref=njs-profile">Blog</a>
-              </li>
-              <li>
-                <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://www.github.com/creativetimofficial?ref=njs-profile">Github</a>
-              </li>
-              <li>
-                <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://www.creative-tim.com/bootstrap-themes/free?ref=njs-profile">Free Products</a>
-              </li>
-            </ul>
-          </div>
-          <div className="w-full lg:w-4/12 px-4">
-            <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">Other Resources</span>
-            <ul className="list-unstyled">
-              <li>
-                <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://github.com/creativetimofficial/notus-js/blob/main/LICENSE.md?ref=njs-profile">MIT License</a>
-              </li>
-              <li>
-                <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://creative-tim.com/terms?ref=njs-profile">Terms &amp; Conditions</a>
-              </li>
-              <li>
-                <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://creative-tim.com/privacy?ref=njs-profile">Privacy Policy</a>
-              </li>
-              <li>
-                <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://creative-tim.com/contact-us?ref=njs-profile">Contact Us</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+                        <div className="section-title">
+                        <h2>Contact</h2>
+                        </div>
+
+                        <div className="row mt-5 justify-content-center">
+
+                        <div className="col-lg-10">
+
+                            <div className="info-wrap">
+                            <div className="row">
+                                <div className="col-lg-4 info">
+                                <i style={{color:'#25E94E', backgroundColor:'#13591C'}} className="bi bi-geo-alt"></i>
+                                <h4>Location:</h4>
+                                <p>Addis Ababa<br />Ethiopia, Addis Ababa</p>
+                                </div>
+
+                                <div className="col-lg-4 info mt-4 mt-lg-0">
+                                <i style={{color:'#25E94E', backgroundColor:'#13591C'}} className="bi bi-envelope"></i>
+                                <h4>Email:</h4>
+                                <p>info@example.com<br />contact@example.com</p>
+                                </div>
+
+                                <div className="col-lg-4 info mt-4 mt-lg-0">
+                                <i style={{color:'#25E94E', backgroundColor:'#13591C'}} className="bi bi-phone"></i>
+                                <h4>Call:</h4>
+                                <p>+251 974-89-60-74<br />+251 974-89-60-74</p>
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+
+                        </div>
+
+                        <div className="row mt-5 justify-content-center">
+                        <div className="col-lg-10">
+                            <form action="forms/contact.php" method="post" className="php-email-form">
+                            <div className="row">
+                                <div className="col-md-6 form-group">
+                                <input type="text" name="name" className="form-control" id="name" placeholder="Your Name" required />
+                                </div>
+                                <div className="col-md-6 form-group mt-3 mt-md-0">
+                                <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" required />
+                                </div>
+                            </div>
+                            <div className="form-group mt-3">
+                                <input type="text" className="form-control" name="subject" id="subject" placeholder="Subject" required />
+                            </div>
+                            <div className="form-group mt-3">
+                                <textarea className="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                            </div>
+                            {/*<div className="my-3">
+                                <div className="loading">Loading</div>
+                                <div className="error-message"></div>
+                                <div className="sent-message">Your message has been sent. Thank you!</div>
+                            </div> */}
+                            <div className="text-center"><button style={{backgroundColor:'#13591C'}} type="submit">Send Message</button></div>
+                            </form>
+                        </div>
+
+                        </div>
+
+                    </div>
+               
     <hr className="my-6 border-blueGray-300"></hr>
     <div className="flex flex-wrap items-center md:justify-between justify-center">
       <div className="w-full md:w-4/12 px-4 mx-auto text-center">
@@ -70,7 +81,8 @@ const Footer = () => {
         </div>
       </div>
     </div>
-  </div>
+  
+</section>
 </footer>
   )
 }

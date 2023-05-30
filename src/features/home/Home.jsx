@@ -6,6 +6,7 @@ import ProductCard from "../../components/cards/ProductCard";
 import Pagination from "../../components/Pagination";
 import Footer from "../../components/Footer";
 import Layout from "../../components/layout/Layout";
+import WhatWeDo from "../../components/cards/whatwedo";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProductDetail,
@@ -60,6 +61,7 @@ const Home = () => {
       ) : null}
 
       <Pagination />
+      <WhatWeDo />
     </Layout>
   );
 };
