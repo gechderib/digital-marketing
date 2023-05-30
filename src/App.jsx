@@ -4,13 +4,18 @@ import Signup from "./features/signup/Signup.jsx";
 import Login from "./features/login/Login";
 import Home from "./features/home/Home";
 import Dashboard from "./features/dashboard/Dashboard";
-import SideBar from "./components/dashboard/SideBar";
-import ProductDetail from "./features/product/ProductDetail";
 import Layout from "./components/layout/Layout";
-import AddTraining from "./features/training/AddTraining";
 import NotFound from "./components/error page/NotFound";
 import Inbox from "./features/dashboard/Inbox";
 import ProductPage from "./features/home/ProductPage";
+import UserTraining from "./features/training/UserTraining";
+import TrainingDetailPage from "./features/training/TrainingDetailPage";
+import Profile from "./features/signup/Profile";
+import MyProducts from "./features/product/MyProducts";
+import EditProductPage from "./features/home/EditProductPage";
+import SellProduct from "./features/home/SellProduct";
+import MyOrders from "./features/orders/MyOrders";
+import MyOffers from "./features/orders/MyOffers";
 // import Signup from './features/signup/Signup.jsx'
 
 function App() {
@@ -22,6 +27,14 @@ function App() {
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/product/:id" element={<ProductPage/> }/>
       <Route path="/messages" element={<Layout><Inbox/></Layout>}/>
+      <Route path="/trainings" element={<UserTraining/>} />
+      <Route path="/training/:id"  element={<TrainingDetailPage/>}/>
+      <Route path="/profile/:id" element = {<Profile/>} />
+      <Route path="/myproducts" element= {<MyProducts/>} />
+      <Route path="/editproduct/:id" element={<EditProductPage/>} />
+      <Route path="/sellproduct" element={<SellProduct/>} />
+      <Route path="/myorders" element = {<MyOrders/>} />
+      <Route path="/myoffers" element = {<MyOffers/>} />
       <Route path="*" element={<NotFound/>}/>
     </Routes>
   );

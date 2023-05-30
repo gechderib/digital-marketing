@@ -3,6 +3,7 @@ import ConnectedUser from "./ConnectedUser";
 import Header from "./Header";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  activeChat,
   connectedUser,
   connectedUserStatus,
   getConnectedUser,
@@ -23,6 +24,7 @@ const ConnectedUserList = () => {
   const viewMessage = (id, token) => {
     try {
       dispatch(getYourMessage({id, token}));
+      
     } catch (err) {
       console.log(err);
     }
@@ -37,11 +39,12 @@ const ConnectedUserList = () => {
               <p>loading...</p>
             ) : connetuserStatus == "succeeded" ? (
               connectedUsers.map((user) => {
-                console.log(user);
                 return (
                   <ConnectedUser
+                  key={user._id}
                     onViewMessage={() => {
                       viewMessage(user._id,token);
+                      dispatch(activeChat(user))
                     }}
                     hoursAgo={"1:30"}
                     lastMessage={`${user._id} Good after noon! how can i help you?`}

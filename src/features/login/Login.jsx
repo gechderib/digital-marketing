@@ -74,7 +74,7 @@ const Login = () => {
                         alt="logo"
                       />
                       <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
-                        We are The G8 Team
+                        We are The ቅዳሜ ገበያ Team
                       </h4>
                     </div>
 

@@ -20,10 +20,10 @@ const HomeNav = () => {
                 3
               </span>
             </div>
-            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+            <div onClick={()=>navigate("/myorders")} className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
               <p className="font-thin">Orders</p>
             </div>
-            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+            <div onClick={()=>navigate("/trainings")} className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
               <p className="font-thin">Trainings</p>
             </div>
           </div>
@@ -38,19 +38,19 @@ const HomeNav = () => {
                 3
               </span>
             </div>
-            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+            <div onClick={()=>navigate("/myproducts")} className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
               <p className="font-thin">My Items</p>
             </div>
-            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+            <div onClick={()=>navigate("/myorders")} className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
               <p className="font-thin">Orders</p>
             </div>
-            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+            <div onClick={()=>navigate("/myoffers")} className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
               <p className="font-thin">Offers</p>
             </div>
-            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+            <div onClick={()=>navigate("/trainings")} className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
               <p className="font-thin">Trainings</p>
             </div>
-            <div className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
+            <div onClick={() =>navigate("/sellproduct")} className="flex items-center cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
               <p className="font-thin">Sell</p>
             </div>
           </div>
@@ -94,7 +94,7 @@ const HomeNav = () => {
                 alt="logo"
               />
               <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                Gebeya
+              ቅዳሜ ገበያ
               </span>
             </div>
           </div>
@@ -113,7 +113,7 @@ const HomeNav = () => {
                     <span className="sr-only">Open user menu</span>
                     <img
                       className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                      src={user.profilePicture || null}
                       alt="user photo"
                     ></img>
                   </button>
@@ -151,8 +151,8 @@ const HomeNav = () => {
 
                     <li>
                       <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                        onClick={()=>navigate(`/profile/${user.id}`)}
+                        className="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
                       >
                         Settings

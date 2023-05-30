@@ -11,6 +11,7 @@ const initialState = {
   detailData:{},
   status: "idle", // loading, success, failed
   error: null,
+  myproducts: [],
 };
 
 export const addNewProduct = createAsyncThunk(
@@ -49,11 +50,30 @@ export const getAllProducts = createAsyncThunk(
   }
 );
 
+export const getMyProducts = createAsyncThunk(
+  "product/getMyproducts",
+  async ({token}) => {
+    try {
+      const response = await axios.get(`${mainUrl}/myProduct`, {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": `${token}`,
+        },
+      });
+      
+      return response.data;
+    } catch (err) {
+      return err.code;
+    }
+  }
+);
+
 export const getOneProduct = createAsyncThunk(
   "product/getOneProduct",
   async (id) => {
     try {
       const response = await axios.get(`${mainUrl}/product/${id}`);
+      
       return response.data;
       
     } catch (err) {
@@ -117,6 +137,17 @@ const productSlice = createSlice({
         state.status = "succeeded";
         console.log(action.payload)
         state.products = action.payload;
+      })      .addCase(getMyProducts.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(getMyProducts.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(getMyProducts.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        console.log(action.payload)
+        state.myproducts = action.payload;
       })
       .addCase(addNewProduct.fulfilled, (state, action) => {
         state.products.push({
@@ -133,7 +164,7 @@ const productSlice = createSlice({
       })
       .addCase(getOneProduct.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.productDetail = action.payload;
+        state.detailData = action.payload;
         state.product = action.payload;
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
@@ -172,7 +203,9 @@ const productSlice = createSlice({
 export const allProducts = (state) => state.products.products;
 export const productStatus = (state) => state.products.status;
 export const productError = (state) => state.products.error;
-export const productDetail = (state) => state.products.detailData
+export const productDetail = (state) => state.products.detailData;
+
+export const myProducts = (state) => state.products.myproducts;
 
 export const {addProductDetail} = productSlice.actions
 export default productSlice.reducer;

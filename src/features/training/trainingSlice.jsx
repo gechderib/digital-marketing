@@ -49,9 +49,14 @@ export const getAllTrainings = createAsyncThunk(
 
 export const getOneTraining = createAsyncThunk(
   "training/getOneTraining",
-  async (id) => {
+  async ({id, token}) => {
     try {
-      const response = await axios.get(`${mainUrl}/training/${id}`);
+      const response = await axios.get(`${mainUrl}/training/${id}`,{
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": `${token}`,
+        },
+      });
       return response.data;
     } catch (err) {
       return err.code;
@@ -131,6 +136,7 @@ const trainingSlice = createSlice({
       })
       .addCase(getOneTraining.fulfilled, (state, action) => {
         state.status = "succeeded";
+        state.detailData = action.payload[0]
         state.training = action.payload;
       })
       .addCase(deleteTraining.fulfilled, (state, action) => {

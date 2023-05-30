@@ -18,7 +18,7 @@ import {
   productError,
   productStatus,
 } from "../../features/product/productSlice";
-import { addUserDetail, allUsers, getAllUsers, registerError, registerStatus } from "../../features/signup/signupSlice";
+import { addUserDetail, allUsers, getAllFarmers, getAllUsers, registerError, registerStatus } from "../../features/signup/signupSlice";
 
 const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
   const dispatch = useDispatch();
@@ -41,8 +41,12 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
 
   useEffect(() => {
     if (tableCtx.dashboardTab === "users") {
-      if(userStatus == "idle") {
+      if(userStatus == "idle" && user.roles[0] === "admin") {
         dispatch(getAllUsers({token}))
+        console.log(user.roles)
+      }
+      if(userStatus == "idle" && user.roles[0] === "agent"){
+        dispatch(getAllFarmers({token}))
       }
     }
     if (tableCtx.dashboardTab === "products") {

@@ -10,11 +10,12 @@ const initialState = {
   messages: [],
   oneUserMessage: [],
   message: {},
-  messaageDetail: {},
+  messageDetail: {},
   status: "idle", // loading, success, failed
   error: null,
   connectedUserStatus:"idle",
-  connectedUsers:[]
+  connectedUsers:[],
+  activeUser:{}
 };
 
 export const addNewMessage = createAsyncThunk(
@@ -147,6 +148,9 @@ const messageSlice = createSlice({
     addMessageDetail(state, action) {
       state.messageDetail = action.payload;
     },
+    activeChat (state, action) {
+      state.activeUser = action.payload
+    }
   },
   extraReducers(builder) {
     builder
@@ -159,10 +163,11 @@ const messageSlice = createSlice({
       })
       .addCase(getAllMessages.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log(action.payload);
+        
         state.messages = action.payload;
       })
       .addCase(addNewMessage.fulfilled, (state, action) => {
+       
         state.oneUserMessage.push({
           ...action.payload,
         });
@@ -185,7 +190,11 @@ const messageSlice = createSlice({
         state.error = action.payload
       }).addCase(getConnectedUser.fulfilled, (state, action) => {
         state.connectedUserStatus = "succeeded"
-        state.connectedUsers = action.payload
+        const savedMess = action.payload.filter(connUser => connUser._id == user.id)
+        const connUser  = action.payload.filter(connUser => connUser._id != user.id)
+        savedMess[0].firstName = "SavedMessage"
+        savedMess[0].lastName = ""
+        state.connectedUsers = [...connUser, savedMess[0]]
       })
 
       .addCase(deleteMessage.fulfilled, (state, action) => {
@@ -213,6 +222,7 @@ export const messageFromOneUser = (state) => state.messages.oneUserMessage;
 export const messageStatus = (state) => state.messages.status;
 export const messageError = (state) => state.messages.error;
 export const messageDetail = (state) => state.messages.messageDetail;
+export const activeuser = (state) => state.messages.activeUser
 
-export const { addMessageDetail } = messageSlice.actions;
+export const { addMessageDetail, activeChat } = messageSlice.actions;
 export default messageSlice.reducer;

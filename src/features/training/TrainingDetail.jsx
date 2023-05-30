@@ -1,10 +1,13 @@
-import React, { useContext } from "react";
-import DmfsseContex from "../../app/contextStore";
+import React from "react";
+import { useSelector } from "react-redux";
+import { trainingDetail } from "./trainingSlice";
 
 const TrainingDetail = () => {
-  const trainingDetailCtx = useContext(DmfsseContex)
-  const training = trainingDetailCtx.detailData
-  console.log(training)
+  const training = useSelector(trainingDetail);
+  console.log(training);
+  if (training.title == null) {
+    return <p>loading ..</p>;
+  }
   return (
     <div>
       <div class="px-4 sm:px-0">
@@ -15,8 +18,8 @@ const TrainingDetail = () => {
           Training details and Comments.
         </p>
       </div>
-      <div class="mt-6 border-t border-gray-100">
-        <dl class="divide-y divide-gray-100">
+      <div class="mt-6 md:flex">
+        <div className="md:w-1/3">
           <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt class="text-sm font-medium leading-6 text-gray-900">Title</dt>
             <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -24,7 +27,7 @@ const TrainingDetail = () => {
             </dd>
           </div>{" "}
           <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt class="text-sm font-medium leading-6 text-gray-900">
+            <dt class="text-sm font-medium leading-6 text-gray-900 text-justify">
               Description
             </dt>
             <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -37,10 +40,9 @@ const TrainingDetail = () => {
               {training.postedBy.firstName} {training.postedBy.lastName}
             </dd>
           </div>
-          <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt class="text-sm font-medium leading-6 text-gray-900">
-              Attachments
-            </dt>
+        </div>
+      
+          <div class="md:w-2/3 px-4 py-6">
             <dd class="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
               <ul
                 role="list"
@@ -53,17 +55,10 @@ const TrainingDetail = () => {
                     alt="Training media file"
                   ></img>
                 </li>
-                {/* <li class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                  <img
-                    className="w-full h-96"
-                    src="https://picsum.photos/200/300"
-                    alt="Training media file"
-                  ></img>
-                </li> */}
               </ul>
             </dd>
           </div>
-        </dl>
+        
       </div>
     </div>
   );

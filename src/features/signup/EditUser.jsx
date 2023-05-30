@@ -39,7 +39,8 @@ const EditUser = () => {
     setRole(e.target.value);
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = (e) => {
+    e.preventDefault()
     dispatch(updateUser(updatedInfo));
     editCtx.setImageUrl("");
     editCtx.setProgressPercent(0);
