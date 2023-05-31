@@ -52,11 +52,64 @@ const ProductDetail = () => {
       }
     }
   };
-
+  const backArrow = () => {
+    if (user) {
+      if (user.roles[0] == "agent" || user.roles[0] == "admin") {
+        return (
+          <div
+            onClick={() => detailCtx.setShowDetail(false)}
+            className="flex cursor-pointer px-5 py-1 rounded-lg self-center items-center"
+          >
+            <span class="material-symbols-outlined">arrow_back_ios</span>{" "}
+            <p className="text-lg">Back</p>
+          </div>
+        );
+      }
+    } else {
+      return null;
+    }
+  };
+  const startChatButton = () => {
+    if (user) {
+      if(detailCtx.isChatStarted ||
+        product.postedBy._id == user.id){
+          return null
+        }else {
+          return                 <button
+          onClick={() => {
+            detailCtx.setShowDetail(false);
+            if (user) {
+              detailCtx.setIsChatStarted(true);
+            } else {
+              navigate("/login");
+            }
+          }}
+          className={`${
+            user.roles[0] == "admin" || user.roles[0] == "agent"
+              ? "hidden"
+              : ""
+          }  flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded`}
+        >
+          Start Chat
+        </button>
+        }
+    } else {
+      return (
+        <button
+          onClick={() => {
+            navigate("/login");
+          }}
+          className={`flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded`}
+        >
+          Start Chat
+        </button>
+      );
+    }
+  };
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white">
       {detailCtx.showModal ? <Modal /> : null}
-      {detailCtx.showOfferModal? <ModalOffer/>:null}
+      {detailCtx.showOfferModal ? <ModalOffer /> : null}
       <div className="container">
         <div className="lg:w-11/12 flex flex-wrap">
           <img
@@ -69,15 +122,8 @@ const ProductDetail = () => {
               <h2 className="text-sm title-font text-gray-500 tracking-widest uppercase">
                 {product.postedBy.phoneNumber}
               </h2>
-              {user.roles[0] == "agent" || user.roles[0] == "admin" ? (
-                <div
-                  onClick={() => detailCtx.setShowDetail(false)}
-                  className="flex cursor-pointer px-5 py-1 rounded-lg self-center items-center"
-                >
-                  <span class="material-symbols-outlined">arrow_back_ios</span>{" "}
-                  <p className="text-lg">Back</p>
-                </div>
-              ) : null}
+    
+              {backArrow()}
             </div>
             <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
               {product.name}
@@ -130,45 +176,43 @@ const ProductDetail = () => {
               <div className="title-font font-medium text-2xl text-gray-900">
                 <p>{product.price} ETB/KG</p>
               </div>
-              {/* {(user.roles[0] == "customer" || user.roles[0] == "sse" || user.roles[0] == "farmer")?:null} */}
-              {detailCtx.isChatStarted || product.postedBy._id == user.id ? null : (
-                <button
-                  onClick={() => {
-                    detailCtx.setShowDetail(false);
-                    if (user) {
-                      detailCtx.setIsChatStarted(true);
-                    } else {
-                      navigate("/login");
-                    }
-                  }}
-                  className={`${(user.roles[0] == "admin" || user.roles[0] == "agent")?"hidden":""}  flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded`}
-                >
-                  Start Chat
-                </button>
-              )}
-              {product.postedBy._id == user.id?<div className="flex gap-2">
-                <button
-                  onClick={()=>{navigate(`/editproduct/${product._id}`)}}
-                  className="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => {
-                    detailCtx.setShowModal(true);
-                    detailCtx.setDetailData(product);
-                    dispatch(addProductDetail(product));
-                  }}
-                  className="flex ml-auto text-white bg-red-700 border-0 py-2 px-6 focus:outline-none hover:bg-red-800 rounded"
-                >
-                 Delete
-                </button>
-              </div>:null}
- 
+        
+              {startChatButton()}
+
+              {user && product.postedBy._id == user.id ? (
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      navigate(`/editproduct/${product._id}`);
+                    }}
+                    className="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      detailCtx.setShowModal(true);
+                      detailCtx.setDetailData(product);
+                      dispatch(addProductDetail(product));
+                    }}
+                    className="flex ml-auto text-white bg-red-700 border-0 py-2 px-6 focus:outline-none hover:bg-red-800 rounded"
+                  >
+                    Delete
+                  </button>
+                </div>
+              ) : null}
             </div>
 
-            {detailCtx.isChatStarted && user && product.postedBy._id != user.id? (
-              <div className={`mt-4 ${(user.roles[0] == "admin" || user.roles[0] == "agent")?"hidden":""}`}>
+            {detailCtx.isChatStarted &&
+            user &&
+            product.postedBy._id != user.id ? (
+              <div
+                className={`mt-4 ${
+                  user.roles[0] == "admin" || user.roles[0] == "agent"
+                    ? "hidden"
+                    : ""
+                }`}
+              >
                 <form onSubmit={addMessage}>
                   <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                     {requestStatus == "net_err" ? (
@@ -186,18 +230,16 @@ const ProductDetail = () => {
                     ) : null}
                     <div className="flex m-2  justify-between items-center">
                       <div className="flex gap-3 ">
-                        <div onClick={()=>detailCtx.setShowOfferModal(true)} class="text-pink-dark font-thin py-2 px-4 border border-pink-600 cursor-pointer rounded">
+                        <div
+                          onClick={() => detailCtx.setShowOfferModal(true)}
+                          class="text-pink-dark font-thin py-2 px-4 border border-pink-600 cursor-pointer rounded"
+                        >
                           Make An Offer
                         </div>
-         
                       </div>
                       <div
                         className="cursor-pointer"
-                        onClick={() => detailCtx.setIsChatStarted(false)
-                        
-                        
-                        
-                        }
+                        onClick={() => detailCtx.setIsChatStarted(false)}
                       >
                         <span class="material-symbols-outlined">close</span>
                       </div>

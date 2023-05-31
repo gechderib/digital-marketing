@@ -14,7 +14,7 @@ export const DmfsseContextProvider = ({children}) => {
     const [showModal, setShowModal] = useState(false)
     const [detailData, setDetailData] = useState(null)
     const [isChatStarted, setIsChatStarted] = useState(false)
-    const [showOfferModal, setShowOfferModal] = useState(true)
+    const [showOfferModal, setShowOfferModal] = useState(false)
     
     
 

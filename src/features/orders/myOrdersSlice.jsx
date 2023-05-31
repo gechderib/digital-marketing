@@ -12,7 +12,8 @@ const initialState = {
   status: "idle", // loading, success, failed
   error: null,
   myorders: [],
-  myoffers: []
+  myoffers: [],
+  offerStat:"idle" // accepting, rejecting
 };
 
 export const addNewOrder = createAsyncThunk(
@@ -24,7 +25,6 @@ export const addNewOrder = createAsyncThunk(
           "content-type": "application/json",
           "x-access-token": `${token}`,
         },
-
       });
       return response.data;
     } catch (err) {
@@ -36,16 +36,18 @@ export const addNewOrder = createAsyncThunk(
 export const getAllOrders = createAsyncThunk(
   "order/getAllOrders",
   async ({token, page = 0 }) => {
+    
     try {
+      
       const response = await axios.get(`${mainUrl}/orders?p=${page}`, {
         headers: {
           "Content-Type": "application/json",
           "x-access-token": `${token}`
         },
       });
-      
       return response.data;
     } catch (err) {
+      
       return err.code;
     }
   }
@@ -156,7 +158,6 @@ const orderSlice = createSlice({
       })
       .addCase(getAllOrders.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log(action.payload)
         state.orders = action.payload;
       })
       .addCase(getMyOrders.pending, (state, action) => {
@@ -181,14 +182,16 @@ const orderSlice = createSlice({
       })
       .addCase(getMyOffers.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log(action.payload)
         state.myoffers = action.payload;
       })
 
       .addCase(addNewOrder.fulfilled, (state, action) => {
-        state.myorders.push({
-          ...action.payload,
-        });
+        if(action.payload != "ERR_BAD_REQUEST" || action.payload == "ERR_NETWORK"){
+          state.myorders.push(
+            ...action.payload,
+          );
+        }
+
       })
       .addCase(getOneOrder.pending, (state, action) => {
         state.status = "loading";
@@ -207,11 +210,17 @@ const orderSlice = createSlice({
           (order) => order._id != state.detailData._id
         );
       })
+      .addCase(updateOrder.pending, (state, action) => {
+        state.offerStat = "loading"
+      })
       .addCase(updateOrder.fulfilled, (state, action) => {
-        state.myorders = state.myorders.filter(
-          (order) => order._id !== action.payload.data._id
+        console.log(action.payload)
+        console.log(action.payload[0]._id)
+        state.myoffers = state.myoffers.filter(
+          (order) => order._id != action.payload[0]._id
         );
-        state.products.push(data);
+        state.myoffers.push(action.payload[0]);
+        state.offerStat = "idle"
       });
   },
 });
@@ -223,6 +232,6 @@ export const orderError = (state) => state.orders.error;
 export const orderDetail = (state) => state.orders.detailData;
 export const myOrders = (state) => state.orders.myorders;
 export const myOffers = (state) => state.orders.myoffers;
-
+export const offerStatus = (state) => state.orders.offerStat
 export const {addOrderDetail} = orderSlice.actions
 export default orderSlice.reducer;

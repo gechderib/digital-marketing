@@ -9,6 +9,8 @@ import {
   updateOrder,
 } from "./myOrdersSlice";
 import OrderCard from "../../components/cards/OrderCard";
+import Loading from "../../components/Loading";
+import axios from "axios";
 
 const MyOffers = () => {
   const dispatch = useDispatch();
@@ -18,16 +20,19 @@ const MyOffers = () => {
   const myOffer = useSelector(myOffers);
   const offerStat = useSelector(orderStatus);
   const offerErr = useSelector(orderError);
+  
 
   useEffect(() => {
     dispatch(getMyOffers({ token }));
   }, [dispatch]);
   console.log(myOffer);
+
+
   return (
     <Layout>
       <div className="mt-16">
         {offerStat == "loading" ? (
-          <p>loading....</p>
+          <Loading />
         ) : offerStat == "failed" ? (
           <p>error happen</p>
         ) : offerErr ? (
@@ -58,7 +63,7 @@ const MyOffers = () => {
                     })
                   );
                 }}
-                onCheckout={() => {}}
+                onCheckout={()=>{}}
               />
             ))}
           </div>

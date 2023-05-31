@@ -55,6 +55,7 @@ export const getAllUsers = createAsyncThunk(
           "x-access-token": `${token}`,
         },
       });
+      
       return response.data;
     } catch (err) {
       return err.code;

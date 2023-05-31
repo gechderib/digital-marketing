@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import GraphDashboard from "./GraphDashboard";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  allOrders,
+  getAllOrders,
+  orderStatus,
+} from "../../features/orders/myOrdersSlice";
+import TableLoading from "../tables/TableLoading";
 
 const TableOrders = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user.accessToken;
+  const orderStat = useSelector(orderStatus);
+  const orders = useSelector(allOrders);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllOrders({ token }));
+  }, [dispatch]);
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg md:w-2/3">
-      <GraphDashboard/>
+      <GraphDashboard />
       <div className="flex justify-between px-3 mb-3">
         <p className="font-bold text-xl">Latest Order</p>
         <div className="cursor-pointer bg-gray-900 px-3 py-1 rounded-md hover:bg-gray-950">
@@ -31,43 +48,30 @@ const TableOrders = () => {
             </th>
           </tr>
         </thead>
+
         <tbody>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              10 Mar 2023
-            </th>
-            <td className="px-6 py-4">Teff</td>
-            <td className="px-6 py-4">Getachew D.</td>
-            <td className="px-6 py-4">Br.5690</td>
-            <td className="px-6 py-4">Pending</td>
-          </tr>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              13 Apr 2022
-            </th>
-            <td className="px-6 py-4">Wheat</td>
-            <td className="px-6 py-4">Solomon K.</td>
-            <td className="px-6 py-4">Br.4563</td>
-            <td className="px-6 py-4">Done</td>
-          </tr>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              09 Jul 2002
-            </th>
-            <td className="px-6 py-4">Onion</td>
-            <td className="px-6 py-4">Wasihun D.</td>
-            <td className="px-6 py-4">Br.23</td>
-            <td className="px-6 py-4">Done</td>
-          </tr>
+          {orderStat == "loading" ? (
+            <TableLoading/>
+          ) : orderStat == "failed" ? (
+            <tr>failed error happen please try again</tr>
+          ) : orderStat == "succeeded" ? (
+            <>
+              {orders.map((order) => (
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {order.createdAt}
+                  </th>
+                  <td className="px-6 py-4">{order.product.name}</td>
+                  <td className="px-6 py-4">{order.orderBy.firstName} {order.orderBy.lastName}</td>
+                  <td className="px-6 py-4">Br.{order.offerPrice}</td>
+                  <td className="px-6 py-4">{order.accepted}</td>
+                </tr>
+              ))}
+            </>
+          ) : null}
         </tbody>
       </table>
     </div>
