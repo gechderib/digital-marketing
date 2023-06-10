@@ -7,8 +7,10 @@ import {
   connectedUser,
   connectedUserStatus,
   getConnectedUser,
+  getSavedMessage,
   getYourMessage,
 } from "./messageSlice";
+import UserLoading from "../loading/UserLoading";
 
 const ConnectedUserList = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -23,7 +25,12 @@ const ConnectedUserList = () => {
 
   const viewMessage = (id, token) => {
     try {
-      dispatch(getYourMessage({id, token}));
+      if(id == user.id){
+        dispatch(getSavedMessage({id, token}))
+      }else{
+        dispatch(getYourMessage({id, token}));
+
+      }
       
     } catch (err) {
       console.log(err);
@@ -36,7 +43,7 @@ const ConnectedUserList = () => {
         <div className="h-full overflow-hidden relative pt-2">
           <div className="flex flex-col divide-y h-full overflow-y-auto -mx-4">
             {connetuserStatus == "loading" ? (
-              <p>loading...</p>
+              <UserLoading/>
             ) : connetuserStatus == "succeeded" ? (
               connectedUsers.map((user) => {
                 return (

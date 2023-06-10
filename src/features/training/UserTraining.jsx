@@ -4,6 +4,7 @@ import {
   addDetailData,
   allTrainings,
   getAllTrainings,
+  pagination,
   trainingError,
   trainingStatus,
 } from "./trainingSlice";
@@ -11,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import TrainingCard from "../../components/cards/TrainingCard";
 import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../components/Pagination";
 
 const UserTraining = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -20,10 +22,11 @@ const UserTraining = () => {
   const trainError = useSelector(trainingError);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const page = useSelector(pagination)
 
   useEffect(() => {
-    dispatch(getAllTrainings({ token, page: 0 }));
-  }, []);
+    dispatch(getAllTrainings({ token, page: page}));
+  }, [page]);
   if (trainStatus == "loading") {
     return (
       <Layout>
@@ -58,6 +61,10 @@ const UserTraining = () => {
             />
           ))}
         </div>
+        <div className="mb-10">
+      <Pagination />
+
+      </div>
       </Layout>
     );
   }

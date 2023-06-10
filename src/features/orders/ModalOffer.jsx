@@ -100,6 +100,8 @@ const ModalOffer = () => {
                           id="quantity"
                           type="number"
                           placeholder="Quantity"
+                          max={prod.amount}
+                          min={1}
                           value={amount}
                           onChange={(e)=>setAmount(e.target.value)}
                         ></input>
@@ -117,6 +119,7 @@ const ModalOffer = () => {
                           type="number"
                           placeholder=""
                           value={price}
+                          min={1}
                           onChange={(e)=>setPrice(e.target.value)}
                         ></input>
                         <p className="text-red text-xs italic">

@@ -13,7 +13,9 @@ const initialState = {
   error: null,
   myorders: [],
   myoffers: [],
-  offerStat:"idle" // accepting, rejecting
+  offerStat:"idle", // accepting, rejecting
+  totalSale:0,
+  todaySession:0
 };
 
 export const addNewOrder = createAsyncThunk(
@@ -75,7 +77,6 @@ export const getMyOrders = createAsyncThunk(
 export const getMyOffers = createAsyncThunk(
     "order/getMyOffers",
     async ({token}) => {
-      console.log(token)
       try {
         const response = await axios.get(`${mainUrl}/myOffers`, {
           headers: {
@@ -86,6 +87,7 @@ export const getMyOffers = createAsyncThunk(
         
         return response.data;
       } catch (err) {
+        
         return err.code;
       }
     }
@@ -178,6 +180,7 @@ const orderSlice = createSlice({
       })
       .addCase(getMyOffers.rejected, (state, action) => {
         state.status = "failed";
+        console.log("ppppppppppppppppppppp")
         state.error = action.payload;
       })
       .addCase(getMyOffers.fulfilled, (state, action) => {

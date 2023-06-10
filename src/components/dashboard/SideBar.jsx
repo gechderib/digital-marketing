@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import DmfsseContex from "../../app/contextStore";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { changePage } from "../../features/training/trainingSlice";
 
 const SideBar = () => {
-
+  const dispatch = useDispatch()
   const sideBarCtx = useContext(DmfsseContex);
   const navigate = useNavigate()
   return (
@@ -13,6 +15,7 @@ const SideBar = () => {
       sideBarCtx.setIsAdding(false)
       sideBarCtx.setIsEditing(false)
       sideBarCtx.setShowDetail(false)
+      dispatch(changePage(0))
     }}
       className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${
         sideBarCtx.showSidebar ? null : "-translate-x-full"
@@ -86,6 +89,17 @@ const SideBar = () => {
           </li>
           <li>
             <button
+              onClick={()=> sideBarCtx.setDasboardTab("register")}
+              className="flex w-full items-center p-2 text-gray-900 rounded-lg hover:bg-white"
+            >
+              <span className="material-symbols-outlined text-gray-500 hover:animate-bounce">
+                app_registration
+              </span>
+              <span className="ml-3">Offers</span>
+            </button>
+          </li>
+          <li>
+            <button
               onClick={()=> navigate("/login")}
               className="flex w-full items-center p-2 text-gray-900 rounded-lg hover:bg-white"
             >
@@ -95,17 +109,7 @@ const SideBar = () => {
               <span className="ml-3">Sign In</span>
             </button>
           </li>
-          <li>
-            <button
-              onClick={()=> sideBarCtx.setDasboardTab("register")}
-              className="flex w-full items-center p-2 text-gray-900 rounded-lg hover:bg-white"
-            >
-              <span className="material-symbols-outlined text-gray-500 hover:animate-bounce">
-                app_registration
-              </span>
-              <span className="ml-3">Register</span>
-            </button>
-          </li>
+
         </ul>
       </div>
     </aside>

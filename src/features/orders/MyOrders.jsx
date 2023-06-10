@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/layout/Layout";
 import OrderCard from "../../components/cards/OrderCard";
 import {
+  addOrderDetail,
   getMyOrders,
   myOrders,
   orderError,
@@ -10,8 +11,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Loading";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import PaymentModal from "../../components/PaymentModal";
 
 const MyOrders = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.accessToken;
@@ -19,6 +23,7 @@ const MyOrders = () => {
   const myOrder = useSelector(myOrders);
   const orderStat = useSelector(orderStatus);
   const orderErr = useSelector(orderError);
+  const [paymentStatus, setPaymentStatus] = useState("idle");
 
   useEffect(() => {
     dispatch(getMyOrders({ token }));
@@ -27,7 +32,9 @@ const MyOrders = () => {
   const chapaSecretKey = "CHASECK_TEST-inlmytxN7CFBwrf8Zm29DPgzYXnZsmrJ";
 
   const handleCheckOut = async (data) => {
+    setPaymentStatus("idle");
     try {
+      setPaymentStatus("pending");
       const response = await axios.post(
         "https://api.chapa.co/v1/transaction/initialize",
         data,
@@ -39,47 +46,71 @@ const MyOrders = () => {
           },
         }
       );
-      console.log(response);
+      if (response.data.status == "success") {
+        
+        window.open(`${response.data.data.checkout_url}`,'_blank', 'rel=noopener noreferrer')
+        setPaymentStatus("idle");
+      } else if (response.status == "failed") {
+        setPaymentStatus("failed");
+      }
     } catch (err) {
-      console.log(err);
+      setPaymentStatus("failed");
     }
   };
 
   return (
     <Layout>
-      <div className="mt-16">
+      <div className="mt-16 py-5 md:px-10">
         {orderStat == "loading" ? (
           <Loading />
         ) : orderStat == "failed" ? (
           <p>error happen</p>
         ) : orderStat == "succeeded" ? (
-          <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-5">
-            {myOrder.map((order) => (
-              <OrderCard
-                product={order.product}
-                price={order.offerPrice}
-                quantity={order.quantity}
-                status={order.accepted}
-                onAccept={() => {}}
-                onReject={() => {}}
-                onCheckout={() => {
-                  handleCheckOut({
-                    amount: "100",
-                    currency: "ETB",
-                    email: "abebech_bekele@gmail.com",
-                    first_name: "Bilen",
-                    last_name: "Gizachew",
-                    phone_number: "0912345678",
-                    tx_ref: "iohkjp-6669",
-                    callback_url:
-                      "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
-                    return_url: "https://www.google.com/",
-                    "customization[title]": "Payment for my favourite merchant",
-                    "customization[description]": "I love online payments.",
-                  });
-                }}
-              />
-            ))}
+          <div className="">
+            {paymentStatus == "pending" ? (
+              <PaymentModal message={"Wait a minute your payment is processing"} title={"Redirecting to Payment..."} ontryAgain={""} status={"pending"} />
+            ) : paymentStatus == "failed" ? (
+              <PaymentModal message={"Please try again your payment is not done!!"} title={"Failed..."} ontryAgain={()=>setPaymentStatus("idle")} status={"failed"} />
+            ) : null}
+            <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-5">
+              {myOrder.map((order) => (
+                <OrderCard
+                  key={order._id}
+                  onDetail={() => dispatch(addOrderDetail(order))}
+                  product={order.product}
+                  price={order.offerPrice}
+                  quantity={order.quantity}
+                  status={order.accepted}
+                  onAccept={() => {
+                    dispatch(addOrderDetail(order));
+                  }}
+                  onReject={() => {
+                    dispatch(addOrderDetail(order));
+                  }}
+                  onCheckout={() => {
+                    
+                    handleCheckOut({
+                      amount: `${order.offerPrice}`,
+                      currency: "ETB",
+                      email: "abebech_bekele@gmail.com",
+                      first_name: `${order.orderBy.firstName}`,
+                      last_name: `${order.orderBy.lastName}`,
+                      phone_number: `${order.orderBy.phoneNumber}`,
+                      tx_ref: `${order._id}`,
+                      callback_url:
+                        "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
+                      return_url: "http://localhost:5173/payment_succeessful",
+                      "customization[title]":
+                        "Payment for my favourite merchant",
+                      "customization[description]": "I love online payments.",
+                    });
+                    localStorage.setItem("order",JSON.stringify(order))
+                    dispatch(addOrderDetail(order));
+                  }}
+                />
+                
+              ))}
+            </div>
           </div>
         ) : null}
       </div>

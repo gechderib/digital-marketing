@@ -3,6 +3,7 @@ import SenderMessage from "./SenderMessage";
 import RecieverMessage from "./RecieverMessage";
 import { messageFromOneUser, messageStatus } from "./messageSlice";
 import { useSelector } from "react-redux";
+import LoadingChatList from "../loading/LoadingChatList";
 
 const ChatBox = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -10,7 +11,7 @@ const ChatBox = () => {
   const messageStat = useSelector(messageStatus);
 
   if (messageStat == "loading") {
-    return <p>loading....</p>;
+    return <LoadingChatList/>
   }
   if (messageStat == "failed") {
     return <p>error happen please refrash your window</p>;
@@ -21,7 +22,6 @@ const ChatBox = () => {
         <div className="h-full overflow-y-auto">
           <div className="grid grid-cols-12 gap-y-2">
             {userMessage.map((message) => {
-              console.log(message);
               if (message.sender._id == user.id) {
                 return (
                   <RecieverMessage

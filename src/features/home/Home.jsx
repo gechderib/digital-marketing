@@ -16,6 +16,7 @@ import {
 } from "../product/productSlice";
 import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
+import { pagination } from "../training/trainingSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -25,10 +26,11 @@ const Home = () => {
   const products = useSelector(allProducts);
   const prodStatus = useSelector(productStatus);
   const prodError = useSelector(productError);
+  const page = useSelector(pagination);
 
   useEffect(() => {
-    dispatch(getAllProducts({ page: 0 }));
-  }, [dispatch]);
+    dispatch(getAllProducts({ page: page }));
+  }, [dispatch, page]);
 
   return (
     <Layout>
@@ -58,8 +60,10 @@ const Home = () => {
           ))}
         </div>
       ) : null}
-
+      <div className="mb-10">
       <Pagination />
+
+      </div>
     </Layout>
   );
 };

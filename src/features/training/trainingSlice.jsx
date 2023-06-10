@@ -11,6 +11,7 @@ var initialState = {
   detailData:{},
   status: "idle", // loading | failed | succeeded
   error: null,
+  page:0
 };
 
 export const addNewTraining = createAsyncThunk(
@@ -103,8 +104,10 @@ const trainingSlice = createSlice({
   initialState,
   reducers: {
     addDetailData(state, action){
-      console.log('kkkk')
       state.detailData = action.payload
+    },
+    changePage(state, action) {
+      state.page = action.payload
     }
   },
 
@@ -168,6 +171,6 @@ export const oneTraining = (state) => state.trainings.training;
 export const trainingStatus = (state) => state.trainings.status;
 export const trainingError = (state) => state.trainings.error;
 export const trainingDetail = (state) => state.trainings.detailData
-
-export const {addDetailData} = trainingSlice.actions
+export const pagination = (state) => state.trainings.page
+export const {addDetailData, changePage} = trainingSlice.actions
 export default trainingSlice.reducer;

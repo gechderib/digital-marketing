@@ -7,6 +7,7 @@ import {
   orderStatus,
 } from "../../features/orders/myOrdersSlice";
 import TableLoading from "../tables/TableLoading";
+import { EthDateTime } from "ethiopian-calendar-date-converter";
 
 const TableOrders = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -20,8 +21,7 @@ const TableOrders = () => {
   }, [dispatch]);
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg md:w-2/3">
-      <GraphDashboard />
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <div className="flex justify-between px-3 mb-3">
         <p className="font-bold text-xl">Latest Order</p>
         <div className="cursor-pointer bg-gray-900 px-3 py-1 rounded-md hover:bg-gray-950">
@@ -51,25 +51,31 @@ const TableOrders = () => {
 
         <tbody>
           {orderStat == "loading" ? (
-            <TableLoading/>
+            <TableLoading />
           ) : orderStat == "failed" ? (
             <tr>failed error happen please try again</tr>
           ) : orderStat == "succeeded" ? (
             <>
-              {orders.map((order) => (
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    {order.createdAt}
-                  </th>
-                  <td className="px-6 py-4">{order.product.name}</td>
-                  <td className="px-6 py-4">{order.orderBy.firstName} {order.orderBy.lastName}</td>
-                  <td className="px-6 py-4">Br.{order.offerPrice}</td>
-                  <td className="px-6 py-4">{order.accepted}</td>
-                </tr>
-              ))}
+              {orders.map((order) => {
+                const time = new Date(order.createdAt)
+                const date = EthDateTime.fromEuropeanDate(time)
+                return (
+                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {`${date}`}
+                    </th>
+                    <td className="px-6 py-4">{order.product.name}</td>
+                    <td className="px-6 py-4">
+                      {order.orderBy.firstName} {order.orderBy.lastName}
+                    </td>
+                    <td className="px-6 py-4">Br.{order.offerPrice}</td>
+                    <td className="px-6 py-4">{order.accepted}</td>
+                  </tr>
+                );
+              })}
             </>
           ) : null}
         </tbody>

@@ -16,6 +16,8 @@ import EditProductPage from "./features/home/EditProductPage";
 import SellProduct from "./features/home/SellProduct";
 import MyOrders from "./features/orders/MyOrders";
 import MyOffers from "./features/orders/MyOffers";
+import PaymentSuccess from "./components/PaymentSuccess";
+import UserEarning from "./features/signup/UserEarning";
 // import Signup from './features/signup/Signup.jsx'
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
       <Route path="/sellproduct" element={<SellProduct/>} />
       <Route path="/myorders" element = {<MyOrders/>} />
       <Route path="/myoffers" element = {<MyOffers/>} />
+      <Route path="/payment_succeessful" element = {<PaymentSuccess/>} />
+      <Route path="/user_earning" element ={<UserEarning/>} />
       <Route path="*" element={<NotFound/>}/>
     </Routes>
   );

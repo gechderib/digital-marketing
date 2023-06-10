@@ -2,13 +2,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { activeuser, messageFromOneUser } from "./messageSlice";
 import { messageStatus } from "./messageSlice";
+import LoadingMessageBar from "../loading/LoadingMessageBar";
 
 const ChatBoxBar = () => {
   const messageStat = useSelector(messageStatus);
   const currentUser = useSelector(activeuser)
 
   if (messageStat == "loading") {
-    return <p>loading....</p>;
+    return <LoadingMessageBar/>
   }
   if (messageStat == "failed") {
     return <p>error happen please refrash your window</p>;

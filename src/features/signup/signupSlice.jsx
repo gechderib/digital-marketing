@@ -7,6 +7,7 @@ const localUrl = "http://localhost:5000/api/dmfsse";
 
 const initialState = {
   users: [],
+  farmers:[],
   user: {},
   userDetail: {},
   status: "idle",
@@ -74,6 +75,7 @@ export const getAllFarmers = createAsyncThunk(
           "x-access-token": `${token}`,
         },
       });
+      console.log(response)
       return response.data;
     } catch (err) {
       return err.code;
@@ -117,7 +119,6 @@ export const updateUser = createAsyncThunk(
           "x-access-token": `${token}`,
         },
       });
-      console.log("oiiiiiiiiiiiiiiiiiiii")
       return response.data;
     } catch (err) {
       return err.code;
@@ -163,7 +164,7 @@ const signupSlice = createSlice({
       })
       .addCase(getAllFarmers.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.users = action.payload;
+        state.farmers = action.payload;
       })
 
 
@@ -189,7 +190,6 @@ const signupSlice = createSlice({
         );
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.users = state.users.filter(
           (user) => user._id !== action.payload.data._id
         );
@@ -203,8 +203,8 @@ const signupSlice = createSlice({
           roles: [`${action.payload.data.roles}`],
           createdAt:`${action.payload.data.createdAt}`,
           identifictionPicture: `${action.payload.data.identifictionPicture}`,
+          profilePicture: `${action.payload.data.profilePicture}`
         };
-        console.log(data)
         state.users.push(data);
       });
   },
@@ -214,6 +214,7 @@ export const getSignupStatus = (state) => state.users.status;
 export const getSignupError = (state) => state.users.error;
 
 export const allUsers = (state) => state.users.users;
+export const allFarmers = (state) => state.users.farmers
 export const registerStatus = (state) => state.users.status;
 export const registerError = (state) => state.users.error;
 export const userDetail = (state) => state.users.userDetail;
