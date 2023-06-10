@@ -64,6 +64,7 @@ const Home = () => {
       <div className="mb-10">
       <Pagination />
       <WhatWeDo />
+      </div>
     </Layout>
   );
 };

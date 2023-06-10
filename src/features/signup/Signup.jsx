@@ -244,7 +244,6 @@ const Signup = () => {
                             className="h-9 text-10 bg-gray-50 border py-55-rem border-gray-300 text-gray-900 text-sm rounded-xl block w-full p-2.5 focus:border-transparent focus:ring-0 focus:border-gray-400"
                             required={true}
                             placeholder="********"
-                            placeholder="abcd@1234!"
                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                           />
                         </div>
