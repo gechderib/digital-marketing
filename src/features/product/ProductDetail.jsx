@@ -1,51 +1,115 @@
 import React, { useContext, useEffect, useState } from "react";
 import DmfsseContex from "../../app/contextStore";
 import { useDispatch, useSelector } from "react-redux";
-import { getOneProduct, productDetail } from "./productSlice";
+import { addProductDetail, getOneProduct, productDetail } from "./productSlice";
 import { addNewMessage } from "../../components/messages/messageSlice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Modal from "../../components/Modal";
+import ModalOffer from "../orders/ModalOffer";
 
 const ProductDetail = () => {
   const detailCtx = useContext(DmfsseContex);
   const user = JSON.parse(localStorage.getItem("user"));
-  const token = user.accessToken;
   const dispatch = useDispatch();
   const product = useSelector(productDetail);
   const [message, setMessage] = useState("");
   const [requestStatus, setRequestStatus] = useState("idle");
-
+  const navigate = useNavigate("");
   const messageInfo = {
     message: message,
   };
 
-  const canSave = [message, token].every(Boolean);
-
   const addMessage = async (e) => {
     e.preventDefault();
+
     setRequestStatus("idle");
-    if (canSave) {
-      try {
-        setRequestStatus("pending");
-        const response = await dispatch(
-          addNewMessage({ initalData: messageInfo, token, id:product.postedBy._id })
-        ).unwrap();
-        if (response == "ERR_BAD_REQUEST") {
-          setRequestStatus("bad_err");
+    if (user) {
+      const token = user.accessToken;
+      const canSave = [message, token].every(Boolean);
+      if (canSave) {
+        try {
+          setRequestStatus("pending");
+          const response = await dispatch(
+            addNewMessage({
+              initalData: messageInfo,
+              token,
+              id: product.postedBy._id,
+            })
+          ).unwrap();
+          if (response == "ERR_BAD_REQUEST") {
+            setRequestStatus("bad_err");
+          }
+          if (response == "ERR_NETWORK") {
+            setRequestStatus("net_err");
+          }
+          if (response.message) {
+            setMessage("");
+            navigate("/messages");
+          }
+        } catch (err) {
+          setRequestStatus("failed");
         }
-        if (response == "ERR_NETWORK") {
-          setRequestStatus("net_err");
-        }
-        if (response.message) {
-          setMessage("");
-        }
-      } catch (err) {
-        setRequestStatus("failed");
       }
     }
   };
-
+  const backArrow = () => {
+    if (user) {
+      if (user.roles[0] == "agent" || user.roles[0] == "admin") {
+        return (
+          <div
+            onClick={() => detailCtx.setShowDetail(false)}
+            className="flex cursor-pointer px-5 py-1 rounded-lg self-center items-center"
+          >
+            <span class="material-symbols-outlined">arrow_back_ios</span>{" "}
+            <p className="text-lg">Back</p>
+          </div>
+        );
+      }
+    } else {
+      return null;
+    }
+  };
+  const startChatButton = () => {
+    if (user) {
+      if(detailCtx.isChatStarted ||
+        product.postedBy._id == user.id){
+          return null
+        }else {
+          return                 <button
+          onClick={() => {
+            detailCtx.setShowDetail(false);
+            if (user) {
+              detailCtx.setIsChatStarted(true);
+            } else {
+              navigate("/login");
+            }
+          }}
+          className={`${
+            user.roles[0] == "admin" || user.roles[0] == "agent"
+              ? "hidden"
+              : ""
+          }  flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded`}
+        >
+          Start Chat
+        </button>
+        }
+    } else {
+      return (
+        <button
+          onClick={() => {
+            navigate("/login");
+          }}
+          className={`flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded`}
+        >
+          Start Chat
+        </button>
+      );
+    }
+  };
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white">
+      {detailCtx.showModal ? <Modal /> : null}
+      {detailCtx.showOfferModal ? <ModalOffer /> : null}
       <div className="container">
         <div className="lg:w-11/12 flex flex-wrap">
           <img
@@ -58,13 +122,8 @@ const ProductDetail = () => {
               <h2 className="text-sm title-font text-gray-500 tracking-widest uppercase">
                 {product.postedBy.phoneNumber}
               </h2>
-              <div
-                onClick={() => detailCtx.setShowDetail(false)}
-                className="flex cursor-pointer px-5 py-1 rounded-lg self-center items-center"
-              >
-                <span class="material-symbols-outlined">arrow_back_ios</span>{" "}
-                <p className="text-lg">Back</p>
-              </div>
+    
+              {backArrow()}
             </div>
             <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
               {product.name}
@@ -112,27 +171,48 @@ const ProductDetail = () => {
                 </div>
               </div>
             </div>
-            <div className="flex">
+
+            <div className="flex gap-2 justify-between">
               <div className="title-font font-medium text-2xl text-gray-900">
                 <p>{product.price} ETB/KG</p>
               </div>
-              {detailCtx.isChatStarted ? null : (
-                <button
-                style={{
-                  background:'#054112',
-                hover:'#3DA12E'}}
-                  onClick={() => {
-                    detailCtx.setShowDetail(false);
-                    detailCtx.setIsChatStarted(true);
-                  }}
-                  className="flex ml-auto text-white border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
-                >
-                  Add To Cart
-                </button>
-              )}
+        
+              {startChatButton()}
+
+              {user && product.postedBy._id == user.id ? (
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      navigate(`/editproduct/${product._id}`);
+                    }}
+                    className="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      detailCtx.setShowModal(true);
+                      detailCtx.setDetailData(product);
+                      dispatch(addProductDetail(product));
+                    }}
+                    className="flex ml-auto text-white bg-red-700 border-0 py-2 px-6 focus:outline-none hover:bg-red-800 rounded"
+                  >
+                    Delete
+                  </button>
+                </div>
+              ) : null}
             </div>
-            {detailCtx.isChatStarted ? (
-              <div className="mt-4">
+
+            {detailCtx.isChatStarted &&
+            user &&
+            product.postedBy._id != user.id ? (
+              <div
+                className={`mt-4 ${
+                  user.roles[0] == "admin" || user.roles[0] == "agent"
+                    ? "hidden"
+                    : ""
+                }`}
+              >
                 <form onSubmit={addMessage}>
                   <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                     {requestStatus == "net_err" ? (
@@ -150,7 +230,10 @@ const ProductDetail = () => {
                     ) : null}
                     <div className="flex m-2  justify-between items-center">
                       <div className="flex gap-3 ">
-                        <div class="text-pink-dark font-thin py-2 px-4 border border-pink-600 cursor-pointer rounded">
+                        <div
+                          onClick={() => detailCtx.setShowOfferModal(true)}
+                          class="text-pink-dark font-thin py-2 px-4 border border-pink-600 cursor-pointer rounded"
+                        >
                           Make An Offer
                         </div>
                         

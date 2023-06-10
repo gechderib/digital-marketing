@@ -3,8 +3,10 @@ import DmfsseContex from "../../app/contextStore";
 import UploadImage from "../../components/UploadImage";
 import { useDispatch, useSelector } from "react-redux";
 import { productDetail, updateProduct } from "./productSlice";
+import { useNavigate } from "react-router-dom";
 
 const EditProduct = () => {
+  const navigate = useNavigate()
   const editCtx = useContext(DmfsseContex);
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.accessToken;
@@ -23,15 +25,19 @@ const EditProduct = () => {
   const newData = { name, amount, price, description, photo: editCtx.imageUrl };
   const updatedInfo = { newData, id: product._id, token };
 
-  const handleUpdate = () => {
+  const handleUpdate = (e) => {
+    e.preventDefault()
     dispatch(updateProduct(updatedInfo));
     editCtx.setImageUrl("");
     editCtx.setProgressPercent(0);
     editCtx.setIsEditing(false);
+    if(user.roles[0] == "farmer" || user.roles[0] == "sse"){
+      navigate("/myproducts")
+    }
   };
 
   return (
-    <div className="w-full px-8 py-8 flex flex-col rounded-x text-gray-700 shadow-none">
+    <div className="w-full px-8 py-8 bg-white flex flex-col rounded-3xl text-gray-700 shadow-none">
       <div className="flex justify-between items-start">
         <div>
           <h4 className="block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
@@ -41,15 +47,16 @@ const EditProduct = () => {
             Enter Product Details
           </p>
         </div>
-        <div
+        {user.roles[0] == "agent" || user.roles[0] == "admin"?   <div
           onClick={() => editCtx.setIsEditing(false)}
           className="flex cursor-pointer px-5 py-1 rounded-lg self-center items-center"
         >
           <span class="material-symbols-outlined">arrow_back_ios</span>{" "}
           <p className="text-lg">Back</p>
-        </div>
+        </div>:null}
+     
       </div>
-      <form className="mt-8 mb-2 max-w-screen-lg w-full">
+      <form className="mt-8 mb-2  w-full">
         <div className="mb-4 flex flex-col gap-6">
           <div className="relative h-11 w-full min-w-[200px]">
             <input
@@ -120,6 +127,7 @@ const EditProduct = () => {
           type="button"
           data-ripple-light="true"
         >
+          
           Save Changes
         </button>
       </form>

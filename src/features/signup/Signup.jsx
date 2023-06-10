@@ -36,9 +36,8 @@ const Signup = () => {
     password,
     identifictionPicture: dmfsseCtx.imageUrl,
   };
-  // get user info from field
+  // get user info from failed
   const getFirstName = (e) => setFirstName(e.target.value);
-  
   const getLastName = (e) => setLastName(e.target.value);
   const getEmail = (e) => setEmail(e.target.value);
   const getPhoneNumber = (e) => {
@@ -51,7 +50,6 @@ const Signup = () => {
   // can save
   const canSave =
     [firstName, lastName, role, phoneNumber, password].every(Boolean)
-
   // handle change role
   const handleRoleChange = (e) => {
     if (e.target.value === "farmer" || e.target.value === "sse") {
@@ -68,7 +66,7 @@ const Signup = () => {
 
     e.preventDefault();
     setRequestStatus("idle");
-    console.log(canSave)
+    
     if (canSave) {
       try {
         setRequestStatus("pending");
@@ -130,7 +128,6 @@ const Signup = () => {
                       ) : (
                         <p className="mb-4	animate-bounce animate-pulse">Please create to your account</p>
                       )}
-
                       {/* Phone number input */}
                       
                       <div className="sm:flex gap-4">
@@ -218,15 +215,16 @@ const Signup = () => {
                           </label>
                           
                           <input
-                                type="tel"
-                                name="phoneNumber"
-                                id="phoneNumber"
-                                onChange={getPhoneNumber}
-                                value={phoneNumber}
-                                className="h-9 text-10 bg-gray-50 border py-55-rem border-gray-300 text-gray-900 text-sm rounded-xl block w-full p-2.5 focus:border-transparent focus:ring-0 focus:border-gray-400"
-                                required={true}
-                                placeholder="+251953890542"
-                              />
+                            type="tel"
+                            name="phoneNumber"
+                            pattern="[0]{1}[0-9]{9}"
+                            id="phoneNumber"
+                            onChange={getPhoneNumber}
+                            value={phoneNumber}
+                            className="h-9 text-10 bg-gray-50 border py-55-rem border-gray-300 text-gray-900 text-sm rounded-xl block w-full p-2.5 focus:border-transparent focus:ring-0 focus:border-gray-400"
+                            required={true}
+                            placeholder="+251953890542"
+                          />
                         </div>
 
                         {/* Password input */}
@@ -246,6 +244,8 @@ const Signup = () => {
                             className="h-9 text-10 bg-gray-50 border py-55-rem border-gray-300 text-gray-900 text-sm rounded-xl block w-full p-2.5 focus:border-transparent focus:ring-0 focus:border-gray-400"
                             required={true}
                             placeholder="********"
+                            placeholder="abcd@1234!"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                           />
                         </div>
                       </div>

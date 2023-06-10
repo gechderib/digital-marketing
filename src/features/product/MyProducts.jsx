@@ -1,47 +1,30 @@
 import React, { useEffect } from "react";
-import BuyNowCard from "../../components/cards/BuyNowCard";
-import HomeNav from "../../components/nav/HomeNav";
-import SortedBy from "../../components/SortedBy";
-import ProductCard from "../../components/cards/ProductCard";
-import Pagination from "../../components/Pagination";
-import Footer from "../../components/Footer";
 import Layout from "../../components/layout/Layout";
-import WhatWeDo from "../../components/cards/whatwedo";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addProductDetail,
-  allProducts,
-  getAllProducts,
-  productError,
-  productStatus,
-} from "../product/productSlice";
-import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
-import { pagination } from "../training/trainingSlice";
+import { addProductDetail, getMyProducts, myProducts, productError, productStatus } from "./productSlice";
+import Loading from "../../components/Loading";
+import ProductCard from "../../components/cards/ProductCard";
 
-const Home = () => {
+const MyProducts = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const token = user.accessToken
 
-  const products = useSelector(allProducts);
+  const products = useSelector(myProducts);
   const prodStatus = useSelector(productStatus);
   const prodError = useSelector(productError);
-  const page = useSelector(pagination);
 
   useEffect(() => {
-    dispatch(getAllProducts({ page: page }));
-  }, [dispatch, page]);
-
+    dispatch(getMyProducts({ token }));
+  }, [dispatch]);
+console.log(prodStatus)
   return (
     <Layout>
       <div className="h-24"></div>
-      {user ? null : <BuyNowCard />}
-
-      {/* <SortedBy /> */}
-
       {prodError ? (
-        <p>error happen</p>
+        <p>error happen </p>
       ) : prodStatus === "loading" ? (
         <Loading />
       ) : prodStatus === "succeeded" ? (
@@ -61,11 +44,10 @@ const Home = () => {
           ))}
         </div>
       ) : null}
-      <div className="mb-10">
-      <Pagination />
-      <WhatWeDo />
+
+      {/* <Pagination /> */}
     </Layout>
   );
 };
 
-export default Home;
+export default MyProducts;

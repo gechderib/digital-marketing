@@ -4,11 +4,11 @@ import DmfsseContex from "../../app/contextStore";
 import Inbox from "./Inbox";
 import Training from "./Training";
 import Users from "./Users";
-import Register from "./Register";
 import Products from "./Products";
 import { useNavigate } from "react-router-dom";
 import AdminLayout from "../../components/layout/AdminLayout";
 import Forbidden from "../../components/error page/Forbidden";
+import FarmerOfferes from "./FarmerOffer";
 
 const Dashboard = () => {
   const dashboardCtx = useContext(DmfsseContex);
@@ -34,7 +34,7 @@ const Dashboard = () => {
         ) : dashboardCtx.dashboardTab == "products" ? (
           <Products />
         ) : dashboardCtx.dashboardTab == "register" ? (
-          <Register />
+          <FarmerOfferes />
         ) : null}
       </AdminLayout>
     );

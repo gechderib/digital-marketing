@@ -10,11 +10,12 @@ const initialState = {
   messages: [],
   oneUserMessage: [],
   message: {},
-  messaageDetail: {},
+  messageDetail: {},
   status: "idle", // loading, success, failed
   error: null,
-  connectedUserStatus:"idle",
-  connectedUsers:[]
+  connectedUserStatus: "idle",
+  connectedUsers: [],
+  activeUser: {},
 };
 
 export const addNewMessage = createAsyncThunk(
@@ -45,7 +46,6 @@ export const getAllMessages = createAsyncThunk(
       const response = await axios.get(`${mainUrl}/messages`, {
         headers: {
           "Content-Type": "application/json",
-          
         },
       });
 
@@ -70,20 +70,36 @@ export const getOneMessage = createAsyncThunk(
 
 export const getYourMessage = createAsyncThunk(
   "message/getYourMessage",
-  async ({id, token}) => {
-    console.log("pppppppppppppppppppp")
-    try { 
-      const response = await axios.get(`${mainUrl}/getYourMessage/${id}`,{
+  async ({ id, token }) => {
+    try {
+      const response = await axios.get(`${mainUrl}/getYourMessage/${id}`, {
         headers: {
           "Content-Type": "application/json",
           "x-access-token": `${token}`,
         },
       });
-      console.log("kkkkkkkkkkkkkkkkkkk")
-      console.log(response)
       return response.data;
     } catch (err) {
-      console.log(err)
+      console.log(err);
+      return err.code;
+    }
+  }
+);
+
+// getSavedMessages
+
+export const getSavedMessage = createAsyncThunk(
+  "message/getSavedMessage",
+  async ({ id, token }) => {
+    try {
+      const response = await axios.get(`${mainUrl}/getSavedMessages/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": `${token}`,
+        },
+      });
+      return response.data;
+    } catch (err) {
       return err.code;
     }
   }
@@ -91,9 +107,9 @@ export const getYourMessage = createAsyncThunk(
 
 export const getConnectedUser = createAsyncThunk(
   "message/getConnectedUser",
-  async ({token}) => {
+  async ({ token }) => {
     try {
-      const response = await axios.get(`${mainUrl}/connectedUserList`,{
+      const response = await axios.get(`${mainUrl}/connectedUserList`, {
         headers: {
           "Content-Type": "application/json",
           "x-access-token": `${token}`,
@@ -147,6 +163,9 @@ const messageSlice = createSlice({
     addMessageDetail(state, action) {
       state.messageDetail = action.payload;
     },
+    activeChat(state, action) {
+      state.activeUser = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -159,13 +178,11 @@ const messageSlice = createSlice({
       })
       .addCase(getAllMessages.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log(action.payload);
+
         state.messages = action.payload;
       })
       .addCase(addNewMessage.fulfilled, (state, action) => {
-        state.oneUserMessage.push({
-          ...action.payload,
-        });
+        state.oneUserMessage.push(...action.payload);
       })
       .addCase(getYourMessage.pending, (state, action) => {
         state.status = "loading";
@@ -176,16 +193,37 @@ const messageSlice = createSlice({
       })
       .addCase(getYourMessage.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log(action);
         state.oneUserMessage = action.payload;
-      }).addCase(getConnectedUser.pending, (state, action)=> {
-        state.connectedUserStatus = "loading"
-      }).addCase(getConnectedUser.rejected, (state, action) => {
+      })
+      .addCase(getSavedMessage.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(getSavedMessage.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload
-      }).addCase(getConnectedUser.fulfilled, (state, action) => {
-        state.connectedUserStatus = "succeeded"
-        state.connectedUsers = action.payload
+        state.error = action.payload;
+      })
+      .addCase(getSavedMessage.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.oneUserMessage = action.payload;
+      })
+      .addCase(getConnectedUser.pending, (state, action) => {
+        state.connectedUserStatus = "loading";
+      })
+      .addCase(getConnectedUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(getConnectedUser.fulfilled, (state, action) => {
+        state.connectedUserStatus = "succeeded";
+        const savedMess = action.payload.filter(
+          (connUser) => connUser._id == user.id
+        );
+        const connUser = action.payload.filter(
+          (connUser) => connUser._id != user.id
+        );
+        savedMess[0].firstName = "SavedMessage";
+        savedMess[0].lastName = "";
+        state.connectedUsers = [...connUser, savedMess[0]];
       })
 
       .addCase(deleteMessage.fulfilled, (state, action) => {
@@ -199,7 +237,6 @@ const messageSlice = createSlice({
         );
         const data = {
           _id: `${action.payload._id}`,
-
         };
 
         state.oneUserMessage.push(data);
@@ -207,12 +244,14 @@ const messageSlice = createSlice({
   },
 });
 
-export const connectedUserStatus = (state) => state.messages.connectedUserStatus;
+export const connectedUserStatus = (state) =>
+  state.messages.connectedUserStatus;
 export const connectedUser = (state) => state.messages.connectedUsers;
 export const messageFromOneUser = (state) => state.messages.oneUserMessage;
 export const messageStatus = (state) => state.messages.status;
 export const messageError = (state) => state.messages.error;
 export const messageDetail = (state) => state.messages.messageDetail;
+export const activeuser = (state) => state.messages.activeUser;
 
-export const { addMessageDetail } = messageSlice.actions;
+export const { addMessageDetail, activeChat } = messageSlice.actions;
 export default messageSlice.reducer;

@@ -8,7 +8,6 @@ import UserDetail from "../signup/UserDetail";
 
 const Users = () => {
   const addCtx = useContext(DmfsseContex);
-  console.log(addCtx.showDetail)
   return (
     <div className="p-4 mt-11 sm:ml-64">
       {addCtx.isAdding ? (

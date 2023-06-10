@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   allTrainings,
   getAllTrainings,
+  pagination,
   trainingError,
   trainingStatus,
 } from "../../features/training/trainingSlice";
@@ -18,7 +19,15 @@ import {
   productError,
   productStatus,
 } from "../../features/product/productSlice";
-import { addUserDetail, allUsers, getAllUsers, registerError, registerStatus } from "../../features/signup/signupSlice";
+import {
+  addUserDetail,
+  allFarmers,
+  allUsers,
+  getAllFarmers,
+  getAllUsers,
+  registerError,
+  registerStatus,
+} from "../../features/signup/signupSlice";
 
 const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
   const dispatch = useDispatch();
@@ -26,7 +35,7 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
   const tableCtx = useContext(DmfsseContex);
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.accessToken;
-
+  const page = useSelector(pagination)
   const trainings = useSelector(allTrainings);
   const trainStatus = useSelector(trainingStatus);
   const trainError = useSelector(trainingError);
@@ -35,28 +44,30 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
   const prodStatus = useSelector(productStatus);
   const prodError = useSelector(productError);
 
-  const users = useSelector(allUsers)
-  const userStatus = useSelector(registerStatus)
-  const userError = useSelector(registerError)
+  const users = useSelector(allUsers);
+  const farmers = useSelector(allFarmers);
+  const userStatus = useSelector(registerStatus);
+  const userError = useSelector(registerError);
 
   useEffect(() => {
     if (tableCtx.dashboardTab === "users") {
-      if(userStatus == "idle") {
-        dispatch(getAllUsers({token}))
+      if (userStatus == "idle" && user.roles[0] === "admin") {
+        dispatch(getAllUsers({ token }));
+      }
+      if (userStatus == "idle" && user.roles[0] === "agent") {
+        dispatch(getAllFarmers({ token }));
       }
     }
+
     if (tableCtx.dashboardTab === "products") {
-      if (prodStatus == "idle") {
-        dispatch(getAllProducts({page: 0 }));
-      }
+     
+        dispatch(getAllProducts({ page: page }));
+      
     }
     if (tableCtx.dashboardTab === "training") {
-      if (trainStatus == "idle") {
-        dispatch(getAllTrainings({ token, page: 0 }));
-      }
+        dispatch(getAllTrainings({ token, page: page }));
     }
-  }, [trainStatus, prodStatus, dispatch]);
-  console.log(productStatus);
+  }, [userStatus, user.roles[0],page, dispatch]);
   return (
     <div className="overflow-auto rounded-lg border border-gray-200 shadow-md m-5">
       {tableCtx.showModal ? <Modal /> : null}
@@ -83,42 +94,81 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
         </thead>
         {tableCtx.dashboardTab === "users" ? (
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-            {userError ? (
-              <td>Error happen cant fetch the data</td>
-            ) : userStatus === "loading" ? (
-              <td>Loading</td>
-            ) : userStatus == "succeeded" ? (
-              users.map((user) => (
-                <SingleItem
-                  onDetailClick={() => {
-                    tableCtx.setShowDetail(true);
-                    tableCtx.setDetailData(user);
-                    dispatch(addUserDetail(user));
-                  }}
-                  img={user.profilePicture}
-                  onEdite={() => {
-                    tableCtx.setIsEditing(true);
-                    tableCtx.setDetailData(user);
-                    dispatch(addUserDetail(user));
-                  }}
-                  onDelete={() => {
-                    tableCtx.setShowModal(true);
-                    tableCtx.setDetailData(user);
-                    dispatch(addUserDetail(user));
-                  }}
-                  phoneNumber={user.phoneNumber}
-                  name={`${user.firstName} ${user.lastName}`}
-                  status={user.verified ? <span class="material-symbols-outlined h-4 w-4">
-                  verified_user
-                  </span> : "not verified"}
-                  prop1={user.roles[0]}
-                  prop2={user.createdAt}
-                />
-              ))
-            ) : (
-              <p>something went wrong please check your connection</p>
-            )}
-          </tbody>
+          {userError ? (
+            <td>Error happen cant fetch the data</td>
+          ) : userStatus === "loading" ? (
+            <td>Loading</td>
+          ) : userStatus == "succeeded" && user.roles[0] =="admin" ? (
+            
+            users.map((user) => (
+              <SingleItem
+                onDetailClick={() => {
+                  tableCtx.setShowDetail(true);
+                  tableCtx.setDetailData(user);
+                  dispatch(addUserDetail(user));
+                }}
+                img={user.profilePicture}
+                onEdite={() => {
+                  tableCtx.setIsEditing(true);
+                  tableCtx.setDetailData(user);
+                  dispatch(addUserDetail(user));
+                }}
+                onDelete={() => {
+                  tableCtx.setShowModal(true);
+                  tableCtx.setDetailData(user);
+                  dispatch(addUserDetail(user));
+                }}
+                phoneNumber={user.phoneNumber}
+                name={`${user.firstName} ${user.lastName}`}
+                status={
+                  user.verified ? (
+                    <span class="material-symbols-outlined h-4 w-4">
+                      verified_user
+                    </span>
+                  ) : (
+                    "not verified"
+                  )
+                }
+                prop1={user.roles[0]}
+                prop2={user.createdAt}
+              />
+            ))
+          ) :userStatus == "succeeded" && user.roles[0] =="agent" ? (
+            farmers.map((user) => (
+              <SingleItem
+                onDetailClick={() => {
+                  tableCtx.setShowDetail(true);
+                  tableCtx.setDetailData(user);
+                  dispatch(addUserDetail(user));
+                }}
+                img={user.profilePicture}
+                onEdite={() => {
+                  tableCtx.setIsEditing(true);
+                  tableCtx.setDetailData(user);
+                  dispatch(addUserDetail(user));
+                }}
+                onDelete={() => {
+                  tableCtx.setShowModal(true);
+                  tableCtx.setDetailData(user);
+                  dispatch(addUserDetail(user));
+                }}
+                phoneNumber={user.phoneNumber}
+                name={`${user.firstName} ${user.lastName}`}
+                status={
+                  user.verified ? (
+                    <span class="material-symbols-outlined h-4 w-4">
+                      verified_user
+                    </span>
+                  ) : (
+                    "not verified"
+                  )
+                }
+                prop1={user.roles[0]}
+                prop2={user.createdAt}
+              />
+            ))
+          ):<p>something went wrong please check your connection</p>}
+        </tbody>
         ) : tableCtx.dashboardTab === "products" ? (
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
             {prodError ? (
@@ -193,6 +243,7 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
         ) : (
           <tbody></tbody>
         )}
+      
       </table>
     </div>
   );

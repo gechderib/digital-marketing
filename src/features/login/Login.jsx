@@ -55,7 +55,6 @@ const Login = () => {
       }
     }
   };
-  console.log(loginStatus);
   return (
     <section className="gradient-form h-full bg-neutral-200 dark:bg-neutral-700">
       <div className="container h-full p-2">

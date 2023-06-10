@@ -11,6 +11,7 @@ var initialState = {
   detailData:{},
   status: "idle", // loading | failed | succeeded
   error: null,
+  page:0
 };
 
 export const addNewTraining = createAsyncThunk(
@@ -49,9 +50,14 @@ export const getAllTrainings = createAsyncThunk(
 
 export const getOneTraining = createAsyncThunk(
   "training/getOneTraining",
-  async (id) => {
+  async ({id, token}) => {
     try {
-      const response = await axios.get(`${mainUrl}/training/${id}`);
+      const response = await axios.get(`${mainUrl}/training/${id}`,{
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": `${token}`,
+        },
+      });
       return response.data;
     } catch (err) {
       return err.code;
@@ -98,8 +104,10 @@ const trainingSlice = createSlice({
   initialState,
   reducers: {
     addDetailData(state, action){
-      console.log('kkkk')
       state.detailData = action.payload
+    },
+    changePage(state, action) {
+      state.page = action.payload
     }
   },
 
@@ -131,6 +139,7 @@ const trainingSlice = createSlice({
       })
       .addCase(getOneTraining.fulfilled, (state, action) => {
         state.status = "succeeded";
+        state.detailData = action.payload[0]
         state.training = action.payload;
       })
       .addCase(deleteTraining.fulfilled, (state, action) => {
@@ -162,6 +171,6 @@ export const oneTraining = (state) => state.trainings.training;
 export const trainingStatus = (state) => state.trainings.status;
 export const trainingError = (state) => state.trainings.error;
 export const trainingDetail = (state) => state.trainings.detailData
-
-export const {addDetailData} = trainingSlice.actions
+export const pagination = (state) => state.trainings.page
+export const {addDetailData, changePage} = trainingSlice.actions
 export default trainingSlice.reducer;

@@ -12,16 +12,18 @@ import { useDispatch, useSelector } from "react-redux";
 
 const ProductPage = () => {
   const { id } = useParams();
+  
   const dispatch = useDispatch();
   const product = useSelector(productDetail);
   const status = useSelector(productStatus);
   const error = useSelector(productError);
+
   useEffect(() => {
-    if (product.price == null) {
-      dispatch(getOneProduct(id));
+    if(product.name == null){
+      
+        dispatch(getOneProduct(id))
     }
-  }, [product]);
-  console.log(product)
+},[dispatch]) 
   return (
     <Layout>
       {status == "loading" ? (
