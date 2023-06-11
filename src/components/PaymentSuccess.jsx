@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { updateOrder } from "../features/orders/myOrdersSlice";
+import { updateProduct } from "../features/product/productSlice";
 
 const PaymentSuccess = () => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("user"));
-  const token = user.accessToken
-  const order = JSON.parse(localStorage.getItem("order"))
+  const token = user.accessToken;
+  const order = JSON.parse(localStorage.getItem("order"));
 
   useEffect(() => {
     dispatch(
@@ -16,6 +17,26 @@ const PaymentSuccess = () => {
         token,
       })
     );
+    const originalAmount = order.product.amount;
+    const soldAmount = order.quantity;
+    const availableAmount = originalAmount - soldAmount;
+    if (availableAmount == 0) {
+      dispatch(
+        updateProduct({
+          newData: { amount: availableAmount, soldout: true },
+          id: order.product._id,
+          token,
+        })
+      );
+    } else {
+      dispatch(
+        updateProduct({
+          newData: { amount: availableAmount },
+          id: order.product._id,
+          token,
+        })
+      );
+    }
   }, []);
 
   return (
@@ -41,7 +62,7 @@ const PaymentSuccess = () => {
           <div className="py-10 text-center">
             <a
               onClick={() => {
-                window.close()
+                window.close();
               }}
               className="px-12 cursor-pointer bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3"
             >

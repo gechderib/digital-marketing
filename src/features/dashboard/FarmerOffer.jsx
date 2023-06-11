@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import MyOffers from "../orders/MyOffers";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addOrderDetail,
   getMyOffers,
   myOffers,
   orderError,
   orderStatus,
+  updateOrder,
 } from "../orders/myOrdersSlice";
 import OrderCard from "../../components/cards/OrderCard";
 import Loading from "../../components/Loading";
