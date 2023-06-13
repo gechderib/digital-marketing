@@ -7,7 +7,7 @@ const Inbox = () => {
   const isAdmin = user.roles[0] == "admin"
   const isAgent = user.roles[0] == "agent"
   return (
-    <div className={`${(isAdmin || isAgent)?"sm:ml-64 md:fixed":""} mt-11 `}>
+    <div className={`${(isAdmin || isAgent)?"sm:ml-64":""} mt-11 `}>
       <Message />
     </div>
   );

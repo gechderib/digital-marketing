@@ -67,7 +67,7 @@ const DashboardHome = () => {
           />
           <DashboardCard
             name={"Total Revenue"}
-            amount={`${totalSale() * 0.02}`}
+            amount={`${(totalSale() * 0.02).toFixed(2)}`}
             percent={1.2}
             icon={"auto_graph"}
           />

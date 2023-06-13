@@ -36,6 +36,7 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.accessToken;
   const page = useSelector(pagination)
+  
   const trainings = useSelector(allTrainings);
   const trainStatus = useSelector(trainingStatus);
   const trainError = useSelector(trainingError);
