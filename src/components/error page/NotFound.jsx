@@ -24,7 +24,7 @@ const NotFound = () => {
             <p class="text-gray-100 mt-2 mb-6">
               we are sorry, but the page you requested was not found
             </p>
-            <a onClick={()=>{navigate("/")}}  class="bg-pink-400 cursor-pointer  px-5 py-3 text-sm shadow-sm font-medium tracking-wider text-gray-50 rounded-full hover:shadow-lg">
+            <a onClick={()=>{navigate("/")}}  class="bg-green-400 cursor-pointer  px-5 py-3 text-sm shadow-sm font-medium tracking-wider text-gray-50 rounded-full hover:shadow-lg">
               Got to Home
             </a>
           </div>

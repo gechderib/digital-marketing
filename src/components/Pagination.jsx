@@ -21,6 +21,10 @@ const Pagination = () => {
     </span>
     <div class="inline-flex mt-2 xs:mt-0">
       <button
+      style={{
+        background:'#054112',
+        hover: 'light-green'
+     }}
       onClick={()=>{
         if(page >0){
           dispatch(changePage(page-1))
@@ -43,10 +47,13 @@ const Pagination = () => {
         Prev
       </button>
       <button
+      style={{
+        background:'#054112',
+     }}
       onClick={()=>{
         dispatch(changePage(page+1))
       }}
-      class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+      class="inline-flex items-center px-4 py-2 text-sm font-medium text-white border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
         Next
         <svg
           aria-hidden="true"

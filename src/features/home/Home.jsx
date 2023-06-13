@@ -7,6 +7,7 @@ import Pagination from "../../components/Pagination";
 import Footer from "../../components/Footer";
 import Layout from "../../components/layout/Layout";
 import WhatWeDo from "../../components/cards/whatwedo";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProductDetail,
@@ -18,6 +19,7 @@ import {
 import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
 import { pagination } from "../training/trainingSlice";
+import Contactus from "../../components/Contactus";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -63,7 +65,8 @@ const Home = () => {
       ) : null}
       <div className="mb-10">
       <Pagination />
-      <WhatWeDo />
+      {user ?  null : <WhatWeDo /> }
+      {user ? null : <Contactus /> }
       </div>
     </Layout>
   );

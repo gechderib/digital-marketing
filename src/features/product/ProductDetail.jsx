@@ -76,6 +76,9 @@ const ProductDetail = () => {
           return null
         }else {
           return                 <button
+          style={{
+            background:'#054112',
+         }}
           onClick={() => {
             detailCtx.setShowDetail(false);
             if (user) {
@@ -88,7 +91,7 @@ const ProductDetail = () => {
             user.roles[0] == "admin" || user.roles[0] == "agent"
               ? "hidden"
               : ""
-          }  flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded`}
+          }  flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded`}
         >
           Start Chat
         </button>
@@ -96,10 +99,13 @@ const ProductDetail = () => {
     } else {
       return (
         <button
+        style={{
+          background:'#054112',
+       }}
           onClick={() => {
             navigate("/login");
           }}
-          className={`flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded`}
+          className={`flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded`}
         >
           Start Chat
         </button>
@@ -128,26 +134,7 @@ const ProductDetail = () => {
             <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
               {product.name}
             </h1>
-            <div className="flex mb-4">
-              <span className="flex items-center">
-                <span className="material-symbols-outlined text-green-500">
-                  star
-                </span>
-                <span className="material-symbols-outlined text-green-500">
-                  star
-                </span>
-                <span className="material-symbols-outlined text-green-500">
-                  star
-                </span>
-                <span className="material-symbols-outlined text-green-500">
-                  star
-                </span>
-                <span className="material-symbols-outlined text-gray-500">
-                  star
-                </span>
-                <span className="text-gray-600 ml-3">4 Reviews</span>
-              </span>
-            </div>
+            
             <p className="leading-relaxed">{product.description} </p>
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
               <div>
@@ -182,10 +169,13 @@ const ProductDetail = () => {
               {user && product.postedBy._id == user.id ? (
                 <div className="flex gap-2">
                   <button
+                  style={{
+                    background:'#054112',
+                 }}
                     onClick={() => {
                       navigate(`/editproduct/${product._id}`);
                     }}
-                    className="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
+                    className="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
                   >
                     Edit
                   </button>
@@ -230,12 +220,16 @@ const ProductDetail = () => {
                     ) : null}
                     <div className="flex m-2  justify-between items-center">
                       <div className="flex gap-3 ">
-                        <div
+                        <button
+                        style={{
+                          background:'#054112',
+                          color:'white'
+                       }}
                           onClick={() => detailCtx.setShowOfferModal(true)}
-                          class="text-pink-dark font-thin py-2 px-4 border border-pink-600 cursor-pointer rounded"
+                          class="text-green-dark font-thin py-2 px-4 border border-green-600 cursor-pointer rounded"
                         >
                           Make An Offer
-                        </div>
+                        </button>
                         
                       </div>
                       <div
@@ -261,8 +255,11 @@ const ProductDetail = () => {
                     </div>
                     <div className="flex items-center justify-between px-3 py-2 border-t ">
                       <button
+                      style={{
+                        background:'#054112',
+                     }}
                         type="submit"
-                        className="inline-flex items-center gap-3 py-2.5 px-4 text-xs font-medium text-center text-white bg-pink-700 rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-pink-800"
+                        className="inline-flex items-center gap-3 py-2.5 px-4 text-xs font-medium text-center text-white bg-green-700 rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-green-800"
                       >
                         <span class="material-symbols-outlined">chat</span>{" "}
                         <span>Send</span>

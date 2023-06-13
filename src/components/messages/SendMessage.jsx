@@ -54,7 +54,7 @@ const SendMessage = () => {
         <div className="w-full">
           <input
             type="text"
-            className="border border-transparent w-full focus:outline-none text-sm h-10 flex items-center px-3"
+            className=" w-full focus:outline-none text-sm h-10 flex items-center px-3"
             placeholder="Type your message...."
             onChange={(e)=>setMessage(e.target.value)}
             value={message}
@@ -62,7 +62,12 @@ const SendMessage = () => {
         </div>
       </div>
       <div className="ml-6">
-        <button type="submit" className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-200 hover:bg-gray-300 text-indigo-800">
+        <button 
+        style={{
+          background:'#054112',
+          color: "white"
+       }}
+        type="submit" className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-200 hover:bg-gray-300 text-indigo-800">
           <span className="material-symbols-outlined">send</span>
         </button>
       </div>

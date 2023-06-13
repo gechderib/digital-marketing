@@ -18,7 +18,7 @@ const ChatBoxBar = () => {
   
     return (
       <div className="flex flex-row items-center py-4 px-6 rounded-2xl shadow">
-        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-100">
+        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-green-500 text-green-100">
         {currentUser.firstName.substring(0,1)}
             
         </div>

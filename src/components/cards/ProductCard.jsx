@@ -8,11 +8,7 @@ const ProductCard = ({ prodImg, name, price, description ,postedBy, onDetail}) =
           src={prodImg}
           alt="product img"
         ></img>
-        <div className="absolute cursor-pointer bg-white top-5 right-5 p-1 flex rounded-full">
-          <span className="material-symbols-outlined hover:material-icons self-center">
-            favorite
-          </span>
-        </div>
+        
       </div>
 
       <div className="mt-3 mx-3">
@@ -25,13 +21,6 @@ const ProductCard = ({ prodImg, name, price, description ,postedBy, onDetail}) =
         </div>
 
         <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center">
-          <span class="material-symbols-outlined text-green-500">star</span>
-          <span class="material-symbols-outlined text-green-500">star</span>
-          <span class="material-symbols-outlined text-green-500">star</span>
-          <span class="material-symbols-outlined text-green-500">star</span>
-          <span class="material-symbols-outlined text-gray-500">star</span>
-        </div>
           <p className="hover:underline cursor-pointer">By- {postedBy}</p>
         </div>
         {/* <div className="inline-flex gap-2 rounded-2xl border-gray-300 mt-4 border-2 py-1 px-4 text-gray-500 cursor-pointer font-bold self-center">

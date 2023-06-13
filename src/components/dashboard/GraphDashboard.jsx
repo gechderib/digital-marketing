@@ -26,7 +26,7 @@ const GraphDashboard = () => {
   const day = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const maxSale = Math.max(...getDailySale());
   return (
-    <div class="flex flex-col items-center md:w-2/3 p-6 pb-6 bg-white rounded-lg shadow-xl sm:p-8">
+    <div class="flex flex-col items-center md:w-2/3 p-6 pb-6 bg-light-grey rounded-lg shadow-xl sm:p-8">
       <h2 class="text-xl font-bold">Daily Sale</h2>
       <span class="text-sm font-semibold text-gray-500">2023</span>
       <div class="flex items-end flex-grow w-full mt-5 space-x-2 sm:space-x-3">

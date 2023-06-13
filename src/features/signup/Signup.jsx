@@ -251,11 +251,11 @@ const Signup = () => {
                       {dmfsseCtx.isFarmerOrSse ? <UploadImage /> : null}
 
                       {/* Submit button */}
-                      <button
+                      <button 
+                      style={{
+                        background:'#054112',
+                     }}
                         type="submit"
-                        style={{
-                          background:'#054112',
-                        }}
                         className="flex justify-center mb-3 mt-3 py-1 hover:bg-green-900 text-center w-full rounded-lg"
                       >
                         {requestStatus == "pending" ? (
@@ -285,11 +285,11 @@ const Signup = () => {
                       {/* Register button */}
                       <div className="items-center justify-between pb-2 pt-1">
                         <p className="mb-0 mr-2">Already have an account?</p>
-                        <button
+                        <button 
                         style={{
-                          color:'white',
-                          background:'#13591C',
-                        hover:'#3DA12E'}}
+                          background:'#054112',
+                          color: 'white'
+                       }}
                           onClick={() => {
                             navigate("/login");
                           }}

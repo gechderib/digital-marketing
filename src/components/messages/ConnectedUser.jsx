@@ -5,7 +5,7 @@ const ConnectedUser = ({hoursAgo, userName, lastMessage,onViewMessage}) => {
       <div className="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">
         {hoursAgo} hours ago
       </div>
-      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
+      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-green-500 text-green-300 font-bold flex-shrink-0">
         {userName.slice(0,1)}
       </div>
       <div className="flex flex-col flex-grow ml-3">
@@ -27,7 +27,7 @@ export default ConnectedUser;
 
 {
   /* <div class="flex flex-row items-center p-4">
-              <div class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
+              <div class="flex items-center justify-center h-10 w-10 rounded-full bg-green-500 text-green-300 font-bold flex-shrink-0">
                 T
               </div>
               <div class="flex flex-col flex-grow ml-3">
