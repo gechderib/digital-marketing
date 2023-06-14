@@ -119,6 +119,7 @@ export const updateUser = createAsyncThunk(
           "x-access-token": `${token}`,
         },
       });
+      console.log(response.data)
       return response.data;
     } catch (err) {
       return err.code;
@@ -190,6 +191,7 @@ const signupSlice = createSlice({
         );
       })
       .addCase(updateUser.fulfilled, (state, action) => {
+        console.log(action)
         state.users = state.users.filter(
           (user) => user._id !== action.payload.data._id
         );
@@ -203,8 +205,11 @@ const signupSlice = createSlice({
           roles: [`${action.payload.data.roles}`],
           createdAt:`${action.payload.data.createdAt}`,
           identifictionPicture: `${action.payload.data.identifictionPicture}`,
-          profilePicture: `${action.payload.data.profilePicture}`
+          profilePicture: `${action.payload.data.profilePicture}`,
+          verified: `${action.payload.data.verified}`
+
         };
+       
         state.users.push(data);
       });
   },

@@ -8,6 +8,7 @@ const SideBar = () => {
   const dispatch = useDispatch()
   const sideBarCtx = useContext(DmfsseContex);
   const navigate = useNavigate()
+  const user = JSON.parse(localStorage.getItem("user"))
   return (
     <aside
     onClick={()=>{
@@ -87,7 +88,7 @@ const SideBar = () => {
               <span className="ml-3">Products</span>
             </button>
           </li>
-          <li>
+          {user.roles[0]=="agent"? <li>
             <button
               onClick={()=> sideBarCtx.setDasboardTab("register")}
               className="flex w-full items-center p-2 text-gray-900 rounded-lg hover:bg-white"
@@ -97,7 +98,8 @@ const SideBar = () => {
               </span>
               <span className="ml-3">Offers</span>
             </button>
-          </li>
+          </li>:null}
+         
           <li>
             <button
               onClick={()=> navigate("/login")}
