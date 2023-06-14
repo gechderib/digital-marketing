@@ -49,6 +49,7 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
   const farmers = useSelector(allFarmers);
   const userStatus = useSelector(registerStatus);
   const userError = useSelector(registerError);
+  console.log(tableCtx);
 
   useEffect(() => {
     if (tableCtx.dashboardTab === "users") {
@@ -100,8 +101,7 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
           ) : userStatus === "loading" ? (
             <td>Loading</td>
           ) : userStatus == "succeeded" && user.roles[0] =="admin" ? (
-            
-            users.map((user) => (
+            users.slice(tableCtx.userpage*10,tableCtx.userpage*10+10).map((user) => (
               <SingleItem
                 onDetailClick={() => {
                   tableCtx.setShowDetail(true);
@@ -135,7 +135,7 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
               />
             ))
           ) :userStatus == "succeeded" && user.roles[0] =="agent" ? (
-            farmers.map((user) => (
+            farmers.slice(tableCtx.userpage*10,tableCtx.userpage*10+10).map((user) => (
               <SingleItem
                 onDetailClick={() => {
                   tableCtx.setShowDetail(true);

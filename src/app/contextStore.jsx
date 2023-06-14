@@ -15,6 +15,8 @@ export const DmfsseContextProvider = ({children}) => {
     const [detailData, setDetailData] = useState(null)
     const [isChatStarted, setIsChatStarted] = useState(false)
     const [showOfferModal, setShowOfferModal] = useState(false)
+    const [userpage, setUserPage] = useState(0)
+    const [orderpage, setOrderPage] = useState(0)
     
     
 
@@ -70,7 +72,9 @@ export const DmfsseContextProvider = ({children}) => {
         isEditing, setIsEditing,
         showDetail, setShowDetail, setImageUrl, setProgressPercent,
         detailData, setDetailData
-        , isChatStarted, setIsChatStarted,showOfferModal, setShowOfferModal
+        , isChatStarted, setIsChatStarted,showOfferModal, setShowOfferModal,
+        userpage, setUserPage,
+        orderpage, setOrderPage
     }
 
     return <DmfsseContex.Provider value={context}>

@@ -16,6 +16,8 @@ const SideBar = () => {
       sideBarCtx.setIsAdding(false)
       sideBarCtx.setIsEditing(false)
       sideBarCtx.setShowDetail(false)
+      sideBarCtx.setUserPage(0)
+      sideBarCtx.setOrderPage(0)
       dispatch(changePage(0))
     }}
       className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${

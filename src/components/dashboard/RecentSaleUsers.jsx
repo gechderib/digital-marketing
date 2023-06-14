@@ -18,7 +18,7 @@ const RecentSaleUsers = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-96 border border-gray-100 p-3">
+    <div className="flex flex-col h-80 overflow-auto gap-6 w-96 border border-gray-100 p-3">
       <div className="flex justify-between">
         <p className="font-bold">Recent Sales</p>
         <p className="cursor-pointer hover:underline">See All</p>
@@ -33,7 +33,6 @@ const RecentSaleUsers = () => {
             imgUrl={sale.product.photo}
             name={`${sale.orderBy.firstName} ${sale.orderBy.lastName}`}
             timeAgo={`${ethio}`}
-            // .substring(0,25)
           />
         )})}
       </div>
