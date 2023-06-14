@@ -40,6 +40,9 @@ const Products = () => {
             </span>
             <div class="inline-flex mt-2 xs:mt-0">
               <button
+              style={{
+                background:'#054112',
+             }}
               onClick={()=>{
                 if(page >0){
                   dispatch(changePage(page-1))
@@ -62,6 +65,9 @@ const Products = () => {
                 Prev
               </button>
               <button
+              style={{
+                background:'#054112',
+             }}
               onClick={()=>{
                 dispatch(changePage(page+1))
               }}

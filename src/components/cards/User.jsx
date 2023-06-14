@@ -1,3 +1,4 @@
+
 import React from 'react'
 
 const User = ({name,imgUrl, timeAgo, amount}) => {

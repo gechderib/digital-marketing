@@ -16,7 +16,7 @@ const HomeNav = () => {
           <div className="flex mr-5">
             <div onClick={()=> navigate("/messages")} className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
               <p className="font-thin">Messages</p>
-              <span className="bg-blue-200 font-thin text-pink-800  p-1 rounded-full w-5 h-5 items-center flex justify-center">
+              <span className="bg-blue-200 font-thin text-green-800  p-1 rounded-full w-5 h-5 items-center flex justify-center">
                 3
               </span>
             </div>
@@ -34,7 +34,7 @@ const HomeNav = () => {
           <div className="flex mr-5">
             <div onClick={()=>navigate("/messages")} className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 py-1 px-3 rounded-full">
               <p className="font-thin">Messages</p>
-              <span className="bg-blue-200 font-thin text-pink-800  p-1 rounded-full w-5 h-5 items-center flex justify-center">
+              <span className="bg-blue-200 font-thin text-green-800  p-1 rounded-full w-5 h-5 items-center flex justify-center">
                 3
               </span>
             </div>

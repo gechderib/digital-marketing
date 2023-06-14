@@ -123,7 +123,12 @@ const Profile = () => {
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       password
                     </label>
-                    <button onClick={()=>{
+                    <button 
+                     style={{
+                      background:'#054112',
+                      color:'white'
+                   }}
+                    onClick={()=>{
                         dispatch(toggleChangePass())
                     }} type="button" className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md ">
                       change your password
@@ -171,6 +176,10 @@ const Profile = () => {
 
                   <div className="flex justify-end">
                     <button
+                    style={{
+                      background:'#054112',
+                      color:'white'
+                   }}
                       className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3"
                       type="submit"
                     >

@@ -5,3 +5,228 @@
 .sort {
     @apply inline-flex gap-2 bg-gray-100 rounded-2xl py-1 px-5 text-gray-500 cursor-pointer font-bold self-center mr-3 mb-3
 }
+
+
+section {
+    padding: 15px 0;
+  }
+  
+  .section-bg {
+    background-color: #f7fbfe;
+  }
+  
+  .section-title {
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  
+  .section-title h2 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    position: relative;
+  }
+  
+  .section-title h2::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 120px;
+    height: 1px;
+    background: #ddd;
+    bottom: 1px;
+    left: calc(50% - 60px);
+  }
+  
+  .section-title h2::after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: #3498db;
+    bottom: 0;
+    left: calc(50% - 20px);
+  }
+  
+  .section-title p {
+    margin-bottom: 0;
+  }
+  
+
+  #id{
+    background:'#054112',
+  }
+
+.contact .info-wrap {
+    padding: 30px;
+    background: #fff;
+    border-radius: 4px;
+  }
+  
+  .contact .info i {
+    font-size: 20px;
+    color: #3498db;
+    float: left;
+    width: 44px;
+    height: 44px;
+    background: #eaf4fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .contact .info h4 {
+    padding: 0 0 0 60px;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #384046;
+  }
+  
+  .contact .info p {
+    padding: 0 0 0 60px;
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #65747f;
+  }
+  
+  .contact .info:hover i {
+    background: #3498db;
+    color: #fff;
+  }
+  
+  .contact .php-email-form {
+    width: 100%;
+    padding: 30px;
+    background: #fff;
+    border-radius: 4px;
+  }
+  
+  .contact .php-email-form .form-group {
+    padding-bottom: 8px;
+  }
+  
+  .contact .php-email-form .validate {
+    display: none;
+    color: red;
+    margin: 0 0 15px 0;
+    font-weight: 400;
+    font-size: 13px;
+  }
+  
+  .contact .php-email-form .error-message {
+    display: none;
+    color: #fff;
+    background: #ed3c0d;
+    text-align: left;
+    padding: 15px;
+    font-weight: 600;
+  }
+  
+  .contact .php-email-form .error-message br+br {
+    margin-top: 25px;
+  }
+  
+  .contact .php-email-form .sent-message {
+    display: none;
+    color: #fff;
+    background: #18d26e;
+    text-align: center;
+    padding: 15px;
+    font-weight: 600;
+  }
+  
+  .contact .php-email-form .loading {
+    display: none;
+    background: #fff;
+    text-align: center;
+    padding: 15px;
+  }
+  
+  .contact .php-email-form .loading:before {
+    content: "";
+    display: inline-block;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    margin: 0 10px -6px 0;
+    border: 3px solid #18d26e;
+    border-top-color: #eee;
+    animation: animate-loading 1s linear infinite;
+  }
+  
+  .contact .php-email-form input,
+  .contact .php-email-form textarea {
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 14px;
+  }
+  
+  .contact .php-email-form input {
+    height: 44px;
+  }
+  
+  .contact .php-email-form textarea {
+    padding: 10px 12px;
+  }
+  
+  .contact .php-email-form button[type=submit] {
+    background: #3498db;
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 4px;
+  }
+  
+  .contact .php-email-form button[type=submit]:hover {
+    background: #5faee3;
+  }
+
+  
+.what-we-do .icon-box {
+    text-align: left;
+    padding: 30px 20px;
+    transition: all ease-in-out 0.3s;
+    background: #457750;
+    border-radius: 10px;
+  }
+  
+  .what-we-do .icon-box .icon {
+    margin: 0 auto;
+    width: 64px;
+    height: 64px;
+    background: #eaf4fb;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transition: ease-in-out 0.3s;
+  }
+  
+  .what-we-do .icon-box .icon i {
+    color: #3498db;
+    font-size: 28px;
+  }
+  
+  
+  
+  .what-we-do .icon-box p {
+    line-height: 24px;
+    font-size: 18px;
+    margin-bottom: 0;
+    color: #fff;
+  }
+  
+  .what-we-do .icon-box:hover {
+    border-color: #fff;
+    box-shadow: 0px 0 25px 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  
+

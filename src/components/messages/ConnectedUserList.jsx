@@ -64,7 +64,11 @@ const ConnectedUserList = () => {
             )}
           </div>
           <div className="absolute bottom-0 right-0">
-            <button className="flex items-center justify-center shadow-sm h-10 w-10 bg-red-500 text-white rounded-full">
+            <button 
+            style={{
+              background:'#054112',
+           }}
+            className="flex items-center justify-center shadow-sm h-10 w-10 text-white rounded-full">
               <span className="material-symbols-outlined">add</span>
             </button>
           </div>

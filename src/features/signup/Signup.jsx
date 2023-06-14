@@ -1,4 +1,7 @@
 import React, { useContext, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+
 import AuthRight from "../../components/AuthRight";
 import { useNavigate } from "react-router-dom";
 import UploadImage from "../../components/UploadImage";
@@ -40,6 +43,7 @@ const Signup = () => {
   const getPhoneNumber = (e) => {
     setRequestStatus("idle");
     setPhoneNumber(e.target.value);
+
   };
   const getPassword = (e) => setPassword(e.target.value);
 
@@ -58,6 +62,8 @@ const Signup = () => {
 
   // handle register
   const handleSubmit = async (e) => {
+    
+
     e.preventDefault();
     setRequestStatus("idle");
     
@@ -89,15 +95,15 @@ const Signup = () => {
   };
 
   return (
-    <section className="gradient-form h-full bg-neutral-200">
-      <div className="container h-full p-10">
+    <section className="gradient-form h-100 bg-neutral-200">
+      <div className="container h-full pt-0">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800">
           <div className="w-full">
-            <div className="block rounded-lg bg-white shadow-lg">
+            <div style={{height:'625px'}} className="block rounded-lg bg-white shadow-lg">
               <div className="g-0 lg:flex lg:flex-wrap">
                 {/* Left column container */}
-                <div className="px-4 md:px-0 lg:w-6/12">
-                  <div className="md:mx-6 md:p-12">
+                <div style={{height:'625px'}} className="px-4 md:px-0 lg:w-6/12">
+                  <div className="pt-0 md:mx-6 md:p-5">
                     {/* Logo */}
                     <div className="text-center">
                       <img
@@ -105,18 +111,16 @@ const Signup = () => {
                         src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
                         alt="logo"
                       />
-                      <h4 className="mb-5 mt-1 pb-1 text-xl font-semibold">
-                        We are The G8 Team
-                      </h4>
+                    
                     </div>
 
                     <form onSubmit={handleSubmit}>
                       {requestStatus == "net_err" ? (
-                        <p className="text-red-600 mb-4 italic animate-bounce">
+                        <p className="text-red-600 mb-2 italic animate-bounce">
                           Pleace check your connection
                         </p>
                       ) : requestStatus == "bad_err" ? (
-                        <p className="text-red-600 mb-4 italic animate-bounce">
+                        <p className="text-red-600 mb-2 italic animate-bounce">
                           phone number already exist
                         </p>
                       ) : requestStatus == "faild" ? (
@@ -125,13 +129,14 @@ const Signup = () => {
                         <p className="mb-4	animate-bounce animate-pulse">Please create to your account</p>
                       )}
                       {/* Phone number input */}
+                      
                       <div className="sm:flex gap-4">
                         <div className="relative z-0 w-full group">
                           <label
                             htmlFor="firstName"
                             className="uppercase  text-[11px]  text-gray-900 bg-white relative px-1  top-2 left-3 w-auto group-focus-within:text-rose-400"
                           >
-                            First Name *
+                           Name *
                           </label>
                           <input
                             type="text"
@@ -141,7 +146,7 @@ const Signup = () => {
                             value={firstName}
                             className={`h-9 text-10 bg-gray-50 border py-55-rem border-gray-300 text-gray-900 text-sm rounded-xl block w-full p-2.5 focus:border-transparent focus:ring-0 focus:border-gray-400`}
                             required={true}
-                            placeholder="johnson"
+                            placeholder="Enter Your Name"
                           />
                         </div>
                         <div className="relative z-0 w-full group">
@@ -149,7 +154,7 @@ const Signup = () => {
                             htmlFor="lastName"
                             className="uppercase  text-[11px]  text-gray-900 bg-white relative px-1  top-2 left-3 w-auto group-focus-within:text-rose-400"
                           >
-                            Last Name *
+                            Father's Name *
                           </label>
                           <input
                             type="text"
@@ -159,7 +164,7 @@ const Signup = () => {
                             value={lastName}
                             className="h-9 text-10 bg-gray-50 border py-55-rem border-gray-300 text-gray-900 text-sm rounded-xl block w-full p-2.5 focus:border-transparent focus:ring-0 focus:border-gray-400"
                             required={true}
-                            placeholder="Andrew"
+                            placeholder="Enter Father's Name"
                           />
                         </div>
                       </div>
@@ -170,7 +175,7 @@ const Signup = () => {
                             htmlFor="email"
                             className="uppercase  text-[11px]  text-gray-900 bg-white relative px-1  top-2 left-3 w-auto group-focus-within:text-rose-400"
                           >
-                            Email
+                            Email *
                           </label>
                           <input
                             type="email"
@@ -208,6 +213,7 @@ const Signup = () => {
                           >
                             Phone Number *
                           </label>
+                          
                           <input
                             type="tel"
                             name="phoneNumber"
@@ -237,7 +243,7 @@ const Signup = () => {
                             value={password}
                             className="h-9 text-10 bg-gray-50 border py-55-rem border-gray-300 text-gray-900 text-sm rounded-xl block w-full p-2.5 focus:border-transparent focus:ring-0 focus:border-gray-400"
                             required={true}
-                            placeholder="abcd@1234!"
+                            placeholder="********"
                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                           />
                         </div>
@@ -245,9 +251,12 @@ const Signup = () => {
                       {dmfsseCtx.isFarmerOrSse ? <UploadImage /> : null}
 
                       {/* Submit button */}
-                      <button
+                      <button 
+                      style={{
+                        background:'#054112',
+                     }}
                         type="submit"
-                        className="flex justify-center mb-12 mt-5 px-3 py-2 hover:bg-gray-900 text-center w-full bg-black rounded-lg"
+                        className="flex justify-center mb-3 mt-3 py-1 hover:bg-green-900 text-center w-full rounded-lg"
                       >
                         {requestStatus == "pending" ? (
                           <div>
@@ -274,16 +283,20 @@ const Signup = () => {
                       </button>
 
                       {/* Register button */}
-                      <div className="flex items-center justify-between pb-6">
+                      <div className="items-center justify-between pb-2 pt-1">
                         <p className="mb-0 mr-2">Already have an account?</p>
-                        <button
+                        <button 
+                        style={{
+                          background:'#054112',
+                          color: 'white'
+                       }}
                           onClick={() => {
                             navigate("/login");
                           }}
                           type="button"
-                          className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                          className="inline-block rounded-lg border-2 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                         >
-                          Login
+                          Log in
                         </button>
                       </div>
                     </form>

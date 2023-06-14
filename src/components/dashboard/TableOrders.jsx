@@ -10,6 +10,9 @@ import TableLoading from "../tables/TableLoading";
 import { EthDateTime } from "ethiopian-calendar-date-converter";
 import DmfsseContex from "../../app/contextStore";
 
+import "../Pagination";
+
+
 const TableOrders = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.accessToken;
@@ -23,12 +26,12 @@ const TableOrders = () => {
   }, [dispatch]);
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="pt-3 relative overflow-x-auto shadow-md sm:rounded-lg">
       <div className="flex justify-between px-3 mb-3">
         <p className="font-bold text-xl">Latest Order</p>
-        <div className="cursor-pointer bg-gray-900 px-3 py-1 rounded-md hover:bg-gray-950">
+       {/*<div className="cursor-pointer bg-gray-900 px-3 py-1 rounded-md hover:bg-gray-950">
           <p className="text-white">View all orders</p>
-        </div>
+        </div>*/} 
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -148,6 +151,7 @@ const TableOrders = () => {
         </div>
       </div>
     </div>
+    
   );
 };
 
