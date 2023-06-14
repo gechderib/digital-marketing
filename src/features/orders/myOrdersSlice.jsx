@@ -180,7 +180,6 @@ const orderSlice = createSlice({
       })
       .addCase(getMyOffers.rejected, (state, action) => {
         state.status = "failed";
-        console.log("ppppppppppppppppppppp")
         state.error = action.payload;
       })
       .addCase(getMyOffers.fulfilled, (state, action) => {

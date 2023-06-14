@@ -7,6 +7,8 @@ const mainUrl = "https://digital-marketing-for-farmers-and-sse.onrender.com/api/
 const localUrl = "http://localhost:5000/api/dmfsse";
 var initialState = {
   trainings: [],
+  searchedTrainings:[],
+  isTrainingSearching:false,
   training: {},
   detailData:{},
   status: "idle", // loading | failed | succeeded
@@ -108,6 +110,12 @@ const trainingSlice = createSlice({
     },
     changePage(state, action) {
       state.page = action.payload
+    },
+    onSearchTraining(state, action) {
+      state.searchedTrainings = state.trainings.filter(training => training.title.toLowerCase().includes(action.payload.toLowerCase()))
+    },
+    setIsTrainingSearching(state, action) {
+      state.isTrainingSearching = action.payload
     }
   },
 
@@ -123,6 +131,7 @@ const trainingSlice = createSlice({
       .addCase(getAllTrainings.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.trainings = action.payload;
+        state.searchedTrainings = action.payload;
       })
       .addCase(addNewTraining.fulfilled, (state, action) => {
         state.trainings.push({
@@ -172,5 +181,7 @@ export const trainingStatus = (state) => state.trainings.status;
 export const trainingError = (state) => state.trainings.error;
 export const trainingDetail = (state) => state.trainings.detailData
 export const pagination = (state) => state.trainings.page
-export const {addDetailData, changePage} = trainingSlice.actions
+export const isTrainingSearching = (state) => state.trainings.isTrainingSearching
+export const searchedTraining = (state) => state.trainings.searchedTrainings;
+export const {addDetailData, changePage, onSearchTraining, setIsTrainingSearching} = trainingSlice.actions
 export default trainingSlice.reducer;

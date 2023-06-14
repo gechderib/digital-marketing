@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   allTrainings,
   getAllTrainings,
+  isTrainingSearching,
   pagination,
+  searchedTraining,
   trainingError,
   trainingStatus,
 } from "../../features/training/trainingSlice";
@@ -16,8 +18,10 @@ import {
   addProductDetail,
   allProducts,
   getAllProducts,
+  isProductSearching,
   productError,
   productStatus,
+  searchedproduct,
 } from "../../features/product/productSlice";
 import {
   addUserDetail,
@@ -35,21 +39,25 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
   const tableCtx = useContext(DmfsseContex);
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.accessToken;
-  const page = useSelector(pagination)
-  
+  const page = useSelector(pagination);
+
   const trainings = useSelector(allTrainings);
   const trainStatus = useSelector(trainingStatus);
   const trainError = useSelector(trainingError);
+  const trainSearchResult = useSelector(searchedTraining);
+  const isTrainSeach = useSelector(isTrainingSearching);
 
   const products = useSelector(allProducts);
+  const searchResult = useSelector(searchedproduct);
+  const isProdSeach = useSelector(isProductSearching);
   const prodStatus = useSelector(productStatus);
   const prodError = useSelector(productError);
+
 
   const users = useSelector(allUsers);
   const farmers = useSelector(allFarmers);
   const userStatus = useSelector(registerStatus);
   const userError = useSelector(registerError);
-  console.log(tableCtx);
 
   useEffect(() => {
     if (tableCtx.dashboardTab === "users") {
@@ -62,14 +70,12 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
     }
 
     if (tableCtx.dashboardTab === "products") {
-     
-        dispatch(getAllProducts({ page: page }));
-      
+      dispatch(getAllProducts({ page: page }));
     }
     if (tableCtx.dashboardTab === "training") {
-        dispatch(getAllTrainings({ token, page: page }));
+      dispatch(getAllTrainings({ token, page: page }));
     }
-  }, [userStatus, user.roles[0],page, dispatch]);
+  }, [userStatus, user.roles[0], page, dispatch]);
   return (
     <div className="overflow-auto rounded-lg border border-gray-200 shadow-md m-5">
       {tableCtx.showModal ? <Modal /> : null}
@@ -96,88 +102,120 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
         </thead>
         {tableCtx.dashboardTab === "users" ? (
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-          {userError ? (
-            <td>Error happen cant fetch the data</td>
-          ) : userStatus === "loading" ? (
-            <td>Loading</td>
-          ) : userStatus == "succeeded" && user.roles[0] =="admin" ? (
-            users.slice(tableCtx.userpage*10,tableCtx.userpage*10+10).map((user) => (
-              <SingleItem
-                onDetailClick={() => {
-                  tableCtx.setShowDetail(true);
-                  tableCtx.setDetailData(user);
-                  dispatch(addUserDetail(user));
-                }}
-                img={user.profilePicture}
-                onEdite={() => {
-                  tableCtx.setIsEditing(true);
-                  tableCtx.setDetailData(user);
-                  dispatch(addUserDetail(user));
-                }}
-                onDelete={() => {
-                  tableCtx.setShowModal(true);
-                  tableCtx.setDetailData(user);
-                  dispatch(addUserDetail(user));
-                }}
-                phoneNumber={user.phoneNumber}
-                name={`${user.firstName} ${user.lastName}`}
-                status={
-                  user.verified ? (
-                    <span class="material-symbols-outlined h-4 w-4">
-                      verified_user
-                    </span>
-                  ) : (
-                    "not verified"
-                  )
-                }
-                prop1={user.roles[0]}
-                prop2={user.createdAt}
-              />
-            ))
-          ) :userStatus == "succeeded" && user.roles[0] =="agent" ? (
-            farmers.slice(tableCtx.userpage*10,tableCtx.userpage*10+10).map((user) => (
-              <SingleItem
-                onDetailClick={() => {
-                  tableCtx.setShowDetail(true);
-                  tableCtx.setDetailData(user);
-                  dispatch(addUserDetail(user));
-                }}
-                img={user.profilePicture}
-                onEdite={() => {
-                  tableCtx.setIsEditing(true);
-                  tableCtx.setDetailData(user);
-                  dispatch(addUserDetail(user));
-                }}
-                onDelete={() => {
-                  tableCtx.setShowModal(true);
-                  tableCtx.setDetailData(user);
-                  dispatch(addUserDetail(user));
-                }}
-                phoneNumber={user.phoneNumber}
-                name={`${user.firstName} ${user.lastName}`}
-                status={
-                  user.verified ? (
-                    <span class="material-symbols-outlined h-4 w-4">
-                      verified_user
-                    </span>
-                  ) : (
-                    "not verified"
-                  )
-                }
-                prop1={user.roles[0]}
-                prop2={user.createdAt}
-              />
-            ))
-          ):<p>something went wrong please check your connection</p>}
-        </tbody>
+            {userError ? (
+              <td>Error happen cant fetch the data</td>
+            ) : userStatus === "loading" ? (
+              <td>Loading</td>
+            ) : userStatus == "succeeded" && user.roles[0] == "admin" ? (
+              users
+                .slice(tableCtx.userpage * 10, tableCtx.userpage * 10 + 10)
+                .map((user) => (
+                  <SingleItem
+                    onDetailClick={() => {
+                      tableCtx.setShowDetail(true);
+                      tableCtx.setDetailData(user);
+                      dispatch(addUserDetail(user));
+                    }}
+                    img={user.profilePicture}
+                    onEdite={() => {
+                      tableCtx.setIsEditing(true);
+                      tableCtx.setDetailData(user);
+                      dispatch(addUserDetail(user));
+                    }}
+                    onDelete={() => {
+                      tableCtx.setShowModal(true);
+                      tableCtx.setDetailData(user);
+                      dispatch(addUserDetail(user));
+                    }}
+                    phoneNumber={user.phoneNumber}
+                    name={`${user.firstName} ${user.lastName}`}
+                    status={
+                      user.verified ? (
+                        <span class="material-symbols-outlined h-4 w-4">
+                          verified_user
+                        </span>
+                      ) : (
+                        "not verified"
+                      )
+                    }
+                    prop1={user.roles[0]}
+                    prop2={user.createdAt}
+                  />
+                ))
+            ) : userStatus == "succeeded" && user.roles[0] == "agent" ? (
+              farmers
+                .slice(tableCtx.userpage * 10, tableCtx.userpage * 10 + 10)
+                .map((user) => (
+                  <SingleItem
+                    onDetailClick={() => {
+                      tableCtx.setShowDetail(true);
+                      tableCtx.setDetailData(user);
+                      dispatch(addUserDetail(user));
+                    }}
+                    img={user.profilePicture}
+                    onEdite={() => {
+                      tableCtx.setIsEditing(true);
+                      tableCtx.setDetailData(user);
+                      dispatch(addUserDetail(user));
+                    }}
+                    onDelete={() => {
+                      tableCtx.setShowModal(true);
+                      tableCtx.setDetailData(user);
+                      dispatch(addUserDetail(user));
+                    }}
+                    phoneNumber={user.phoneNumber}
+                    name={`${user.firstName} ${user.lastName}`}
+                    status={
+                      user.verified ? (
+                        <span class="material-symbols-outlined h-4 w-4">
+                          verified_user
+                        </span>
+                      ) : (
+                        "not verified"
+                      )
+                    }
+                    prop1={user.roles[0]}
+                    prop2={user.createdAt}
+                  />
+                ))
+            ) : (
+              <p>something went wrong please check your connection</p>
+            )}
+          </tbody>
         ) : tableCtx.dashboardTab === "products" ? (
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
             {prodError ? (
               <td>Error happen cant fetch the data</td>
             ) : prodStatus === "loading" ? (
               <td>Loading</td>
-            ) : prodStatus == "succeeded" ? (
+            ) : prodStatus == "succeeded" && !isProdSeach ? (
               products.map((product) => (
+                <SingleItem
+                  onDetailClick={() => {
+                    tableCtx.setShowDetail(true);
+                    tableCtx.setDetailData(product);
+                    dispatch(addProductDetail(product));
+                  }}
+                  img={product.photo}
+                  onEdite={() => {
+                    tableCtx.setIsEditing(true);
+                    tableCtx.setDetailData(product);
+                    dispatch(addProductDetail(product));
+                  }}
+                  onDelete={() => {
+                    tableCtx.setShowModal(true);
+                    tableCtx.setDetailData(product);
+                    dispatch(addProductDetail(product));
+                  }}
+                  phoneNumber={product.postedBy.phoneNumber}
+                  name={product.name}
+                  status={product.soldout ? "sold out" : "available"}
+                  prop1={product.amount}
+                  prop2={product.price}
+                />
+              ))
+            ) : prodStatus == "succeeded" && isProdSeach ? (
+              searchResult.map((product) => (
                 <SingleItem
                   onDetailClick={() => {
                     tableCtx.setShowDetail(true);
@@ -212,8 +250,33 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
               <td>Error happen cant fetch the data</td>
             ) : trainStatus === "loading" ? (
               <td>Loading</td>
-            ) : trainStatus == "succeeded" ? (
+            ) : trainStatus == "succeeded" && !isTrainSeach ? (
               trainings.map((training) => (
+                <SingleItem
+                  onDetailClick={() => {
+                    tableCtx.setShowDetail(true);
+                    tableCtx.setDetailData(training);
+                    dispatch(addDetailData(training));
+                  }}
+                  img={training.mediaFile}
+                  onEdite={() => {
+                    tableCtx.setIsEditing(true);
+                    tableCtx.setDetailData(training);
+                    dispatch(addDetailData(training));
+                  }}
+                  onDelete={() => {
+                    tableCtx.setShowModal(true);
+                    tableCtx.setDetailData(training);
+                    dispatch(addDetailData(training));
+                  }}
+                  name={training.title}
+                  status={"345"}
+                  prop1={training.createdAt}
+                  prop2={`${training.postedBy.firstName} ${training.postedBy.lastName}`}
+                />
+              ))
+            ) : trainStatus == "succeeded" && isTrainSeach ? (
+              trainSearchResult.map((training) => (
                 <SingleItem
                   onDetailClick={() => {
                     tableCtx.setShowDetail(true);
@@ -244,7 +307,6 @@ const ItemTable = ({ prop1, prop2, prop3, prop4 }) => {
         ) : (
           <tbody></tbody>
         )}
-      
       </table>
     </div>
   );

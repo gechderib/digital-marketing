@@ -221,6 +221,7 @@ const messageSlice = createSlice({
         const connUser = action.payload.filter(
           (connUser) => connUser._id != user.id
         );
+        console.log(savedMess)
         savedMess[0].firstName = "SavedMessage";
         savedMess[0].lastName = "";
         state.connectedUsers = [...connUser, savedMess[0]];

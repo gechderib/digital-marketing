@@ -8,8 +8,9 @@ import store from "./app/store";
 import { DmfsseContextProvider } from "./app/contextStore";
 
 
- import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
- import '../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
+//  import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+//  import '../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
+ 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

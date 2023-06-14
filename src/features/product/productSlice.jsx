@@ -7,6 +7,8 @@ const localUrl = "http://localhost:5000/api/dmfsse";
 
 const initialState = {
   products: [],
+  searchedProducts:[],
+  isProductSearching:false,
   product:{},
   detailData:{},
   status: "idle", // loading, success, failed
@@ -123,6 +125,12 @@ const productSlice = createSlice({
     addProductDetail(state, action) {
       state.detailData = action.payload;
     },
+    onSearchProduct(state, action) {
+      state.searchedProducts = state.products.filter(product => product.name.toLowerCase().includes(action.payload.toLowerCase()))
+    },
+    setIsProductSearching(state, action) {
+      state.isProductSearching = action.payload
+    }
   },
   extraReducers(builder) {
     builder
@@ -137,6 +145,7 @@ const productSlice = createSlice({
         state.status = "succeeded";
         console.log(action.payload)
         state.products = action.payload;
+        state.searchedProducts = action.payload
       })      .addCase(getMyProducts.pending, (state, action) => {
         state.status = "loading";
       })
@@ -204,8 +213,9 @@ export const allProducts = (state) => state.products.products;
 export const productStatus = (state) => state.products.status;
 export const productError = (state) => state.products.error;
 export const productDetail = (state) => state.products.detailData;
-
+export const searchedproduct = (state) => state.products.searchedProducts;
+export const isProductSearching = (state) => state.products.isProductSearching;
 export const myProducts = (state) => state.products.myproducts;
 
-export const {addProductDetail} = productSlice.actions
+export const {addProductDetail, onSearchProduct, setIsProductSearching} = productSlice.actions
 export default productSlice.reducer;

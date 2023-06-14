@@ -24,6 +24,7 @@ const MyOrders = () => {
   const orderStat = useSelector(orderStatus);
   const orderErr = useSelector(orderError);
   const [paymentStatus, setPaymentStatus] = useState("idle");
+  const mainUrl = "https://digital-marketing-for-farmers-and-sse.onrender.com/api/dmfsse";
 
   useEffect(() => {
     dispatch(getMyOrders({ token }));
@@ -35,6 +36,18 @@ const MyOrders = () => {
     setPaymentStatus("idle");
     try {
       setPaymentStatus("pending");
+
+      // const response = await axios.post(`${mainUrl}/chapapay`,data,{headers:{'x-access-token':token}})
+      // console.log(response)
+      // console.log("kkkkkkkkkkk")
+      // if (response.data.status == "success") {
+        
+      //   window.open(`${response.data.data.checkout_url}`,'_blank', 'rel=noopener noreferrer')
+      //   setPaymentStatus("idle");
+      // } else if (response.data.status == "failed") {
+      //   setPaymentStatus("failed");
+      // }
+
       const response = await axios.post(
         "https://api.chapa.co/v1/transaction/initialize",
         data,
@@ -50,10 +63,11 @@ const MyOrders = () => {
         
         window.open(`${response.data.data.checkout_url}`,'_blank', 'rel=noopener noreferrer')
         setPaymentStatus("idle");
-      } else if (response.status == "failed") {
+      } else if (response.data.status == "failed") {
         setPaymentStatus("failed");
       }
     } catch (err) {
+      
       setPaymentStatus("failed");
     }
   };
@@ -96,7 +110,7 @@ const MyOrders = () => {
                       first_name: `${order.orderBy.firstName}`,
                       last_name: `${order.orderBy.lastName}`,
                       phone_number: `${order.orderBy.phoneNumber}`,
-                      tx_ref: `${order._id}`,
+                      tx_ref: `${"oooooopioeruijskdfjalkfj"}`,
                       callback_url:
                         "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
                       return_url: "http://localhost:5173/payment_succeessful",
