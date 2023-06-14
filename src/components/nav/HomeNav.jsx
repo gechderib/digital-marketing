@@ -93,7 +93,7 @@ const HomeNav = () => {
 
             <div  onClick={()=>{navigate("/")}} className="flex ml-2 md:mr-24 cursor-pointer">
               <img
-                className="h-8 w-18 mr-3"
+                className="h-8 w-28 mr-3"
                 src= {logo}
                 alt="logo"
               />
