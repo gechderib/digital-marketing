@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
 import DmfsseContex from "../../app/contextStore";
 import { useNavigate } from "react-router-dom";
+import logoimg from "../../assets/images/flogo22.png";
+
+
 const HomeNav = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
@@ -9,6 +12,7 @@ const HomeNav = () => {
     setShowDropDown(!showDropdown);
   };
   const sideBarCtx = useContext(DmfsseContex);
+  const logo = logoimg;
   const forCustomer = () => {
     if (user) {
       if (user.roles[0] == "customer") {
@@ -62,8 +66,8 @@ const HomeNav = () => {
   };
 
   return (
-    <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-100">
-      <div className="px-3 py-3 lg:px-5 lg:pl-3">
+    <nav className="h-14 fixed top-0 z-50 w-full bg-white border-b border-gray-100">
+      <div className="px-3 py-3 lg:px-3 lg:pl-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-start">
             <button
@@ -89,12 +93,12 @@ const HomeNav = () => {
 
             <div  onClick={()=>{navigate("/")}} className="flex ml-2 md:mr-24 cursor-pointer">
               <img
-                className="h-8 mr-3"
-                src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                className="h-8 w-18 mr-3"
+                src= {logo}
                 alt="logo"
               />
               <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-              ቅዳሜ ገበያ
+              
               </span>
             </div>
           </div>
