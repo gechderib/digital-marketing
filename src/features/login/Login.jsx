@@ -3,6 +3,8 @@ import AuthRight from "../../components/AuthRight.jsx";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "./loginSlice.jsx";
+import logoimg from '../../assets/images/flogo22.png';
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,6 +12,7 @@ const Login = () => {
   // login info
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const logo = logoimg;
 
   const loginInfo = {
     phoneNumber,
@@ -68,13 +71,11 @@ const Login = () => {
                     {/* Logo */}
                     <div className="text-center">
                       <img
-                        className="mx-auto w-48"
-                        src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                        className="mx-auto w-58"
+                        src= {logo}
                         alt="logo"
                       />
-                      <h4 className="mb-1 mt-1 pb-1 text-xl font-semibold">
-                      THE FUTURE OF AGRO INNOVATION
-                      </h4>
+                      
                     </div>
 
                     <form onSubmit={handleSubmit}>

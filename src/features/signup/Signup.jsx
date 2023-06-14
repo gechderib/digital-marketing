@@ -8,6 +8,8 @@ import UploadImage from "../../components/UploadImage";
 import DmfsseContex from "../../app/contextStore";
 import { useDispatch } from "react-redux";
 import { addNewUser } from "./signupSlice";
+import logoimg from '../../assets/images/flogo22.png';
+
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ const Signup = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
 
+  const logo = logoimg;
   const userInfo = {
     firstName,
     lastName,
@@ -99,16 +102,16 @@ const Signup = () => {
       <div className="container h-full pt-0">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800">
           <div className="w-full">
-            <div style={{height:'625px'}} className="block rounded-lg bg-white shadow-lg">
+            <div style={{height:'665px'}} className="block rounded-lg bg-white shadow-lg">
               <div className="g-0 lg:flex lg:flex-wrap">
                 {/* Left column container */}
-                <div style={{height:'625px'}} className="px-4 md:px-0 lg:w-6/12">
-                  <div className="pt-0 md:mx-6 md:p-5">
+                <div style={{height:'665px'}} className="px-4 md:px-0 lg:w-6/12">
+                  <div className="pt-0 md:mx-6 md:p-1">
                     {/* Logo */}
                     <div className="text-center">
                       <img
-                        className="mx-auto w-48"
-                        src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                        className="mx-auto w-58"
+                        src={logo}
                         alt="logo"
                       />
                     
