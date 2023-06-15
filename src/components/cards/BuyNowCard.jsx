@@ -25,7 +25,7 @@ const BuyNowCard = () => {
         <h1 style={{
           fontSize:'48px',
           color:'white'
-      }}>WELCOME TO <span style={{color:'#054012',border:'white'}}>SHEMETA</span></h1>
+      }}>WELCOME TO <span  style={{color:'#054012',border:'white'}}>SHEMETA</span></h1>
         <h3 style={{fontSize:'24px',  color:'white'}}>THE FUTURE OF <span style={{color:'#054012',fontWeight:'bold'}}>AGRO</span> INNOVATION</h3>
         <a href="/login"  
         style={{

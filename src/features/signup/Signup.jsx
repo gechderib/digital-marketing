@@ -98,7 +98,7 @@ const Signup = () => {
   };
 
   return (
-    <section className="gradient-form h-100 bg-neutral-200">
+    <section className="gradient-form h-100 bg-neutral-200 flex justify-center">
       <div className="container h-full pt-0">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800">
           <div className="w-full">
@@ -259,7 +259,7 @@ const Signup = () => {
                         background:'#054112',
                      }}
                         type="submit"
-                        className="flex justify-center mb-3 mt-3 py-1 hover:bg-green-900 text-center w-full rounded-lg"
+                        className="flex justify-center mb-3 mt-3 py-2 hover:bg-green-900 text-center w-full rounded-lg"
                       >
                         {requestStatus == "pending" ? (
                           <div>
@@ -286,7 +286,8 @@ const Signup = () => {
                       </button>
 
                       {/* Register button */}
-                      <div className="items-center justify-between pb-2 pt-1">
+                      <div className="flex items-center justify-between pb-2 pt-2">
+                        <div>
                         <p className="mb-0 mr-2">Already have an account?</p>
                         <button 
                         style={{
@@ -301,6 +302,9 @@ const Signup = () => {
                         >
                           Log in
                         </button>
+                        </div>
+                        <div onClick={()=>{navigate("/")}} className="underline cursor-pointer text-green-950">Home</div>
+                    
                       </div>
                     </form>
                   </div>

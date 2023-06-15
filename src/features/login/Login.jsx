@@ -3,8 +3,9 @@ import AuthRight from "../../components/AuthRight.jsx";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "./loginSlice.jsx";
-import logoimg from '../../assets/images/flogo22.png';
-
+import logoimg from "../../assets/images/flogo22.png";
+import { setupRecaptcha } from "../../thirdparty/firebase.js";
+import { set } from "react-hook-form";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,6 +13,12 @@ const Login = () => {
   // login info
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+
+  const [otp, setOtp] = useState("");
+  const [flag, setFlag] = useState(false);
+  const [conformObj, setConformObj] = useState("");
+  const [error, setError] = useState();
+
   const logo = logoimg;
 
   const loginInfo = {
@@ -58,27 +65,67 @@ const Login = () => {
       }
     }
   };
+  const onSendOTP = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      console.log("pppppppppppppppppppppp");
+      const response = await setupRecaptcha("+251953890542");
+      setConformObj(response);
+      setFlag(true);
+
+      console.log("herhelkjdlskf");
+    } catch (error) {
+      console.log("jjjjjjjjjjjjkkkkkkkkkkkkkk");
+      setError(error);
+    }
+  };
+
+  const onVerifyOtp = async (e) => {
+    e.preventDefault();
+    if (otp === "" || otp === undefined)
+      return setError("Wrong atp confirmation is added ");
+    try {
+      await conformObj.confirm(otp);
+      handleSubmit(e);
+      // navigate("/")
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  console.log(otp);
+  console.log(conformObj);
+  console.log(flag);
+  console.log(error);
+
   return (
-    <section className="gradient-form h-full bg-neutral-200 dark:bg-neutral-700">
+    <section className="gradient-form h-full bg-neutral-200 flex justify-center">
       <div className="container h-full p-2">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
           <div className="w-full">
-            <div style={{height:'610px'}} className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
+            <div
+              style={{ height: "610px" }}
+              className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800"
+            >
               <div className="g-0 lg:flex lg:flex-wrap">
                 {/* Left column container */}
-                <div style={{height:'610px'}} className="px-4 md:px-0 lg:w-6/12">
+                <div
+                  style={{ height: "610px" }}
+                  className="px-4 md:px-0 lg:w-6/12"
+                >
                   <div className="md:mx-6 md:p-5">
                     {/* Logo */}
                     <div className="text-center">
-                      <img
-                        className="mx-auto w-58"
-                        src= {logo}
-                        alt="logo"
-                      />
-                      
+                      <img className="mx-auto w-58" src={logo} alt="logo" />
                     </div>
+                    {/* handleSubmit */}
 
-                    <form onSubmit={handleSubmit}>
+                    <form
+                      onSubmit={handleSubmit}
+                      // style={{ display: !flag ? "block" : "none" }}
+                      className={`${flag ? "hidden" : null}`}
+                    >
                       {loginStatus == "net_err" ? (
                         <p className="text-red-600 mb-4 italic animate-bounce">
                           Pleace check your connection
@@ -129,11 +176,12 @@ const Login = () => {
                         </label>
                       </div>
                       {/* Submit button */}
-                      <button 
-                      style={{
-                        background:'#054112',
-                     }}
-                      className="mb-6 mt-5 py-2 flex justify-center hover:bg-gray-950 rounded-lg text-center w-full">
+                      <button
+                        style={{
+                          background: "#054112",
+                        }}
+                        className="mb-6 mt-5 py-2 flex justify-center hover:bg-gray-950 rounded-lg text-center w-full"
+                      >
                         {loginStatus == "pending" ? (
                           <div>
                             <svg
@@ -168,21 +216,45 @@ const Login = () => {
                       </div>
 
                       {/* Register button */}
-                      <div className="items-center justify-between pb-4">
-                        <p className="mb-0 mr-2">Don't have an account?</p>
-                        <button
-                        style={{
-                          color:'white',
-                          background:'#13591C',
-                        hover:'#3DA12E'}}
-                          onClick={() => {
-                            navigate("/signup");
-                          }}
-                          type="button"
-                          className="inline-block rounded-lg border-2 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out hover:bg-neutral-500 hover:bg-opacity-10 focus:outline-none focus:ring-0 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
-                        >
-                          Register
-                        </button>
+                      <div className="flex items-center justify-between pb-4">
+                        <div>
+                          <p className="mb-0 mr-2">Don't have an account?</p>
+                          <button
+                            style={{
+                              color: "white",
+                              background: "#13591C",
+                              hover: "#3DA12E",
+                            }}
+                            onClick={() => {
+                              navigate("/signup");
+                            }}
+                            type="button"
+                            className="inline-block rounded-lg border-2 px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out hover:bg-neutral-500 hover:bg-opacity-10 focus:outline-none focus:ring-0 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                          >
+                            Register
+                          </button>
+                        </div>
+                        <div onClick={()=>{navigate("/")}} className="underline cursor-pointer text-green-950">Home</div>
+                      </div>
+                    </form>
+
+                    <form
+                      // style={{ display: flag ? "block" : "none" }}
+                      className={`${flag ? "" : "hidden"}`}
+                    >
+                      <input
+                        onChange={(e) => setOtp(e.target.value)}
+                        value={otp}
+                        placeholder="OTP"
+                        className="border border-gray-500 px-2 py-1 mb-3 block rounded-lg w-full h-11"
+                      />
+                      <div id="recaptcha-container"></div>
+                      <div
+                        onClick={onVerifyOtp}
+                        type="submit"
+                        className="bg-black text-center text-white p-2 mb-3 block cursor-pointer"
+                      >
+                        Verify OTP
                       </div>
                     </form>
                   </div>

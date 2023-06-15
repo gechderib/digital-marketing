@@ -21,7 +21,7 @@ import {
   addDoc,
 } from "firebase/firestore";
 
-import {getStorage} from "firebase/storage"
+import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -41,19 +41,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app)
-
+const storage = getStorage(app);
 
 const googleAuthProvider = new GoogleAuthProvider();
 
 const setupRecaptcha = async (number) => {
-  const recaptchaVerifier = new RecaptchaVerifier(
-    "recaptcha-container",
-    {},
-    auth
-  );
-  recaptchaVerifier.render()
-  return signInWithPhoneNumber(auth,number,recaptchaVerifier)
+  try {
+    const recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {},
+      auth
+    );
+    console.log(recaptchaVerifier);
+    recaptchaVerifier.render();
+    return signInWithPhoneNumber(auth, number, recaptchaVerifier);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const signInWithGoogle = async () => {
@@ -124,5 +128,5 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
-  setupRecaptcha
+  setupRecaptcha,
 };
