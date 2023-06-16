@@ -125,7 +125,7 @@ const MyOrders = () => {
                       first_name: `${order.orderBy.firstName}`,
                       last_name: `${order.orderBy.lastName}`,
                       phone_number: `${order.orderBy.phoneNumber}`,
-                      tx_ref: `${"oooooopioeruijskdfjalkfj"}`,
+                      tx_ref: `${order._id}`,
                       callback_url:
                         "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
                       return_url: "http://localhost:5173/payment_succeessful",
