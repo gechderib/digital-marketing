@@ -64,6 +64,7 @@ const Modal = () => {
                     dispatch(deleteProduct({ id: item._id, token }));
                     navigate("/myproducts")
                   }
+                  
                   modalCtx.setShowModal(false);
                 }}
                 type="button"

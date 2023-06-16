@@ -12,6 +12,7 @@ const initialState = {
   userDetail: {},
   status: "idle",
   error: null,
+  updateStatus:"idle",
   changePass:false
 };
 // idle | loading | succeeded | failed
@@ -190,8 +191,11 @@ const signupSlice = createSlice({
           (user) => user._id != state.userDetail._id
         );
       })
+      .addCase(updateUser.pending, (state, action) => {
+        state.updateStatus = "loading"
+      })
       .addCase(updateUser.fulfilled, (state, action) => {
-        console.log(action)
+        
         state.users = state.users.filter(
           (user) => user._id !== action.payload.data._id
         );
@@ -209,7 +213,7 @@ const signupSlice = createSlice({
           verified: `${action.payload.data.verified}`
 
         };
-       
+        state.updateStatus = "succeeded"
         state.users.push(data);
       });
   },
@@ -217,7 +221,7 @@ const signupSlice = createSlice({
 
 export const getSignupStatus = (state) => state.users.status;
 export const getSignupError = (state) => state.users.error;
-
+export const updateStat = (state) => state.users.updateStatus
 export const allUsers = (state) => state.users.users;
 export const allFarmers = (state) => state.users.farmers
 export const registerStatus = (state) => state.users.status;

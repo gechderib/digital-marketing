@@ -18,6 +18,7 @@ import MyOrders from "./features/orders/MyOrders";
 import MyOffers from "./features/orders/MyOffers";
 import PaymentSuccess from "./components/PaymentSuccess";
 import UserEarning from "./features/signup/UserEarning";
+import OrderDetail from "./features/orders/OrderDetail";
 // import Signup from './features/signup/Signup.jsx'
 
 
@@ -40,6 +41,7 @@ function App() {
       <Route path="/myoffers" element = {<MyOffers/>} />
       <Route path="/payment_succeessful" element = {<PaymentSuccess/>} />
       <Route path="/user_earning" element ={<UserEarning/>} />
+      <Route path="/order/:id" element={<OrderDetail/>} />
       <Route path="*" element={<NotFound/>}/>
     </Routes>
   );

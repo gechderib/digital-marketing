@@ -24,7 +24,8 @@ const MyOrders = () => {
   const orderStat = useSelector(orderStatus);
   const orderErr = useSelector(orderError);
   const [paymentStatus, setPaymentStatus] = useState("idle");
-  const mainUrl = "https://digital-marketing-for-farmers-and-sse.onrender.com/api/dmfsse";
+  const mainUrl =
+    "https://digital-marketing-for-farmers-and-sse.onrender.com/api/dmfsse";
 
   useEffect(() => {
     dispatch(getMyOrders({ token }));
@@ -41,7 +42,7 @@ const MyOrders = () => {
       // console.log(response)
       // console.log("kkkkkkkkkkk")
       // if (response.data.status == "success") {
-        
+
       //   window.open(`${response.data.data.checkout_url}`,'_blank', 'rel=noopener noreferrer')
       //   setPaymentStatus("idle");
       // } else if (response.data.status == "failed") {
@@ -60,14 +61,16 @@ const MyOrders = () => {
         }
       );
       if (response.data.status == "success") {
-        
-        window.open(`${response.data.data.checkout_url}`,'_blank', 'rel=noopener noreferrer')
+        window.open(
+          `${response.data.data.checkout_url}`,
+          "_blank",
+          "rel=noopener noreferrer"
+        );
         setPaymentStatus("idle");
       } else if (response.data.status == "failed") {
         setPaymentStatus("failed");
       }
     } catch (err) {
-      
       setPaymentStatus("failed");
     }
   };
@@ -82,15 +85,28 @@ const MyOrders = () => {
         ) : orderStat == "succeeded" ? (
           <div className="">
             {paymentStatus == "pending" ? (
-              <PaymentModal message={"Wait a minute your payment is processing"} title={"Redirecting to Payment..."} ontryAgain={""} status={"pending"} />
+              <PaymentModal
+                message={"Wait a minute your payment is processing"}
+                title={"Redirecting to Payment..."}
+                ontryAgain={""}
+                status={"pending"}
+              />
             ) : paymentStatus == "failed" ? (
-              <PaymentModal message={"Please try again your payment is not done!!"} title={"Failed..."} ontryAgain={()=>setPaymentStatus("idle")} status={"failed"} />
+              <PaymentModal
+                message={"Please try again your payment is not done!!"}
+                title={"Failed..."}
+                ontryAgain={() => setPaymentStatus("idle")}
+                status={"failed"}
+              />
             ) : null}
             <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-5">
               {myOrder.map((order) => (
                 <OrderCard
                   key={order._id}
-                  onDetail={() => dispatch(addOrderDetail(order))}
+                  onDetail={() => {
+                    dispatch(addOrderDetail(order));
+                    navigate(`/order/${order._id}`);
+                  }}
                   product={order.product}
                   price={order.offerPrice}
                   quantity={order.quantity}
@@ -102,7 +118,6 @@ const MyOrders = () => {
                     dispatch(addOrderDetail(order));
                   }}
                   onCheckout={() => {
-                    
                     handleCheckOut({
                       amount: `${order.offerPrice}`,
                       currency: "ETB",
@@ -118,11 +133,10 @@ const MyOrders = () => {
                         "Payment for my favourite merchant",
                       "customization[description]": "I love online payments.",
                     });
-                    localStorage.setItem("order",JSON.stringify(order))
+                    localStorage.setItem("order", JSON.stringify(order));
                     dispatch(addOrderDetail(order));
                   }}
                 />
-                
               ))}
             </div>
           </div>

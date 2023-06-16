@@ -1,19 +1,20 @@
 import React, { useContext, useState } from "react";
-import DmfsseContex from "../../app/contextStore";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewOrder } from "./myOrdersSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import DmfsseContex from "../../app/contextStore";
 import { productDetail } from "../product/productSlice";
-import { useNavigate } from "react-router-dom";
+import { orderDetail, updateOrder } from "./myOrdersSlice";
 
-const ModalOffer = () => {
+const OrderDetailModal = () => {
   const offerCtx = useContext(DmfsseContex);
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.accessToken;
   const prod = useSelector(productDetail);
+  const ord = useSelector(orderDetail);
   const navigate = useNavigate();
-  const [price, setPrice] = useState(prod.price);
-  const [amount, setAmount] = useState(prod.amount);
-
+  const [price, setPrice] = useState(ord.offerPrice);
+  const [amount, setAmount] = useState(ord.quantity);
+  const { id } = useParams();
   const [offerStatus, setOfferStatus] = useState("idle");
   const dispatch = useDispatch();
   // can save
@@ -25,13 +26,13 @@ const ModalOffer = () => {
 
     if (canSave) {
       const orderInfor = {
-        initalData: { offerPrice: price, quantity: amount },
+        newData: { offerPrice: price, quantity: amount,accepted: ord.accepted },
+        id: id,
         token,
-        productId: prod._id,
       };
       try {
         setOfferStatus("pending");
-        const response = await dispatch(addNewOrder(orderInfor)).unwrap();
+        const response = await dispatch(updateOrder(orderInfor)).unwrap();
         console.log(response[0].offerPrice);
         if (response == "ERR_BAD_REQUEST") {
           setOfferStatus("bad_err");
@@ -161,7 +162,7 @@ const ModalOffer = () => {
                     />
                   </svg>
                 ) : null}
-                Send An Offer
+                Save Change
               </button>
               <button
                 style={{
@@ -182,4 +183,4 @@ const ModalOffer = () => {
   );
 };
 
-export default ModalOffer;
+export default OrderDetailModal;
