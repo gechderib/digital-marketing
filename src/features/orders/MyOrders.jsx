@@ -128,7 +128,7 @@ const MyOrders = () => {
                       tx_ref: `${order._id}`,
                       callback_url:
                         "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
-                      return_url: "http://localhost:5173/payment_succeessful",
+                      return_url: "https://shemeta.netlify.app/payment_succeessful",
                       "customization[title]":
                         "Payment for my favourite merchant",
                       "customization[description]": "I love online payments.",
